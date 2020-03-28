@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from "react";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
-import { StyleSheet, Text, View } from "react-native";
+import { AsyncStorage, StyleSheet, Text, View } from "react-native";
 
-import { readFromStorage, removeFromStorage } from "../utils/";
+import { writeToStorage, readFromStorage, removeFromStorage } from "../utils/";
 
-export default function HomeScreen({ navigation, route }) {
+export default function Welcome({ navigation, route }) {
   const [loading, setIsLoading] = useState(new Date(1598051730000));
   const [date, setDate] = useState(new Date(1598051730000));
   const [isDateTimePickerVisible, setIsDateTimePickerVisible] = useState(true);
+
+  const onChange = (event, selectedDate) => {
+    console.log(selectedDate);
+
+    const currentDate = selectedDate || date;
+    setDate(currentDate);
+  };
 
   useEffect(() => {
     async function getQuarantineStartDate() {
@@ -28,6 +36,8 @@ export default function HomeScreen({ navigation, route }) {
     return new Date(calculatedDate);
   };
 
+  console.log("isDateTimePickerVisible", isDateTimePickerVisible);
+
   if (loading) {
     return (
       <View style={styles.container}>
@@ -38,26 +48,42 @@ export default function HomeScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      {!isDateTimePickerVisible && (
+      {isDateTimePickerVisible && (
         <View>
+          <DateTimePicker
+            testID="dateTimePicker"
+            timeZoneOffsetInMinutes={0}
+            value={date}
+            mode="date"
+            is24Hour={true}
+            display="default"
+            onChange={onChange}
+          />
           <Text
             style={styles.dummyStyle}
             onPress={async () => {
-              await removeFromStorage("quarantineStartDate");
-              setIsDateTimePickerVisible(true);
-              navigation.navigate("Welcome");
+              await writeToStorage("quarantineStartDate", date);
+              setIsDateTimePickerVisible(false);
+              navigation.navigate("App");
             }}
           >
-            Finish My Quarantine !
+            Start My Quarantine !
           </Text>
-          <Text style={styles.dummyStyle}>{date && date.toString()}</Text>
         </View>
       )}
+      {/* <Text
+        style={styles.dummyStyle}
+        onPress={() => {
+          navigation.navigate("App");
+        }}
+      >
+        GO to APP !
+      </Text> */}
     </View>
   );
 }
 
-HomeScreen.navigationOptions = {
+Welcome.navigationOptions = {
   header: null
 };
 
