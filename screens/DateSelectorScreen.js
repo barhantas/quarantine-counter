@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 import { AsyncStorage, StyleSheet, Text, View } from "react-native";
+import Button from 'react-native-button';
 
-import { writeToStorage, readFromStorage, removeFromStorage } from "../utils/";
+import { writeToStorage, readFromStorage, removeFromStorage } from "../utils";
 
-export default function Welcome({ navigation, route }) {
+export default function DateSelectorScreen({ navigation, route }) {
   const [loading, setIsLoading] = useState(new Date(1598051730000));
   const [date, setDate] = useState(new Date(1598051730000));
-  const [isDateTimePickerVisible, setIsDateTimePickerVisible] = useState(true);
 
   const onChange = (event, selectedDate) => {
     console.log(selectedDate);
@@ -18,25 +18,28 @@ export default function Welcome({ navigation, route }) {
   };
 
   useEffect(() => {
+    let isCancelled = false;
     async function getQuarantineStartDate() {
       setIsLoading(true);
       const date = await readFromStorage("quarantineStartDate");
-      setIsDateTimePickerVisible(!date);
+      if (date) {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'App' }],
+        });
+        navigation.navigate('App');
+      }
       setDate(date ? new Date(date) : new Date());
       setIsLoading(false);
     }
-    getQuarantineStartDate();
+    if (!isCancelled) {
+      getQuarantineStartDate();
+    }
+    return () => {
+      isCancelled = true;
+    };
   }, []);
 
-  getEndDateOfQuarantine = () => {
-    const now = new Date();
-    const calculatedDate = now.setDate(
-      now.getDate() + assumingQuarantineDayCount
-    );
-    return new Date(calculatedDate);
-  };
-
-  console.log("isDateTimePickerVisible", isDateTimePickerVisible);
 
   if (loading) {
     return (
@@ -48,49 +51,65 @@ export default function Welcome({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      {isDateTimePickerVisible && (
+
         <View>
+          <Text style={styles.header}>Choose Start Date</Text>
           <DateTimePicker
             testID="dateTimePicker"
             timeZoneOffsetInMinutes={0}
+            maximumDate={new Date()}
             value={date}
             mode="date"
             is24Hour={true}
             display="default"
             onChange={onChange}
           />
-          <Text
-            style={styles.dummyStyle}
+          <Button
+            containerStyle={styles.buttonContainer}
+            style={styles.button}
             onPress={async () => {
               await writeToStorage("quarantineStartDate", date);
-              setIsDateTimePickerVisible(false);
-              navigation.navigate("App");
+              navigation.navigate("TimeSelector");
             }}
           >
-            Start My Quarantine !
-          </Text>
+            Next
+          </Button>
         </View>
-      )}
-      {/* <Text
-        style={styles.dummyStyle}
-        onPress={() => {
-          navigation.navigate("App");
-        }}
-      >
-        GO to APP !
-      </Text> */}
     </View>
   );
 }
 
-Welcome.navigationOptions = {
-  header: null
+DateSelectorScreen.navigationOptions = {
+  header: null,
+  gesturesEnabled: false
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff"
+    },
+  header: {
+    fontSize: 25,
+    textAlign: 'center',
+    padding: 20
   },
-  dummyStyle: { marginTop: 60 }
+  button: {
+    marginTop: 60,
+    fontSize: 20, 
+    color: 'white',
+    padding: 10,
+    borderRadius: 20, 
+    backgroundColor: '#48BB78',
+    width: 200,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden'
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  }
 });

@@ -5,8 +5,8 @@ export default function(containerRef) {
   return useLinking(containerRef, {
     prefixes: [Linking.makeUrl("/")],
     config: {
-      Welcome: {
-        path: "welcome",
+      DateSelector: {
+        path: "DateSelector",
         screens: {}
       },
       App: {
