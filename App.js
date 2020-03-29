@@ -8,7 +8,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import BottomTabNavigator from "./navigation/BottomTabNavigator";
 import useLinking from "./navigation/useLinking";
-import Welcome from "./screens/Welcome";
+import DateSelectorScreen from "./screens/DateSelectorScreen";
+import TimeSelectorScreen from "./screens/TimeSelectorScreen";
 
 const Stack = createStackNavigator();
 
@@ -55,7 +56,8 @@ export default function App(props) {
           initialState={initialNavigationState}
         >
           <Stack.Navigator>
-            <Stack.Screen name="Welcome" component={Welcome} />
+            <Stack.Screen name="DateSelector" component={DateSelectorScreen} options={{ title: 'Quarantine Timer' }} />
+            <Stack.Screen name="TimeSelector" component={TimeSelectorScreen} options={{ title: 'Quarantine Timer' }}/>
             <Stack.Screen name="App" component={BottomTabNavigator} />
           </Stack.Navigator>
         </NavigationContainer>
