@@ -6,7 +6,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "commit": "git-cz"
   },
   "jest": {
     "preset": "jest-expo"
@@ -36,8 +37,22 @@
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
     "babel-preset-expo": "~8.0.0",
+    "cz-conventional-changelog": "^3.1.0",
+    "husky": "^4.2.3",
     "jest-expo": "~36.0.1"
   },
-  "private": true
+  "private": true,
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
 }
