@@ -1,12 +1,12 @@
 import * as React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 import TabBarIcon from "../components/TabBarIcon";
 import HomeScreen from "../screens/HomeScreen";
-import LinksScreen from "../screens/LinksScreen";
 import TasksScreen from "../screens/TasksScreen";
+
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = "Home";
-
 
 export default function BottomTabNavigator({ navigation, route }) {
   // Set the header title on the parent stack navigator depending on the
@@ -20,19 +20,19 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Home"
         component={HomeScreen}
         options={{
-          title: "Quarantine Counter",
+          title: "Home",
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name="md-code-working" />
+            <TabBarIcon focused={focused} name="home" />
           )
         }}
       />
       <BottomTab.Screen
-        name="Links"
-        component={LinksScreen}
+        name="Tasks"
+        component={TasksScreen}
         options={{
-          title: "Resources",
+          title: "Tasks",
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name="md-book" />
+            <TabBarIcon focused={focused} name="rocket1" />
           )
         }}
       />
@@ -46,8 +46,8 @@ function getHeaderTitle(route) {
 
   switch (routeName) {
     case "Home":
-      return "Quarantine Counter";
-    case "Links":
-      return "Links to learn more";
+      return "";
+    case "Tasks":
+      return "Daily Tasks";
   }
 }

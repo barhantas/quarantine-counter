@@ -40,7 +40,7 @@ export default function TimeSelectorScreen({ navigation, route }) {
         containerStyle={styles.buttonContainer}
         style={styles.button}
         onPress={async () => {
-          await writeToStorage("quarantineDuration", day);
+          await writeToStorage("quarantineDurationInDays", day);
           navigation.reset({
             index: 0,
             routes: [{ name: 'App' }],

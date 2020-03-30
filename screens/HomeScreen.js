@@ -9,7 +9,7 @@ import { readFromStorage, removeFromStorage, writeToStorage } from "../utils/";
 export default function HomeScreen({ navigation, route }) {
   const [loading, setIsLoading] = useState(false);
   const [date, setDate] = useState(new Date());
-  const [quarantineDuration, setQuarantineDuration] = useState(0);
+  const [quarantineDurationInDays, setQuarantineDuration] = useState(0);
   const [quarantineCounter, setQuarantineCounter] = useState(0);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export default function HomeScreen({ navigation, route }) {
       // console.log(savedQuarantineCounter);
 
       const date = await readFromStorage("quarantineStartDate");
-      const duration = await readFromStorage("quarantineDuration");
+      const duration = await readFromStorage("quarantineDurationInDays");
       const durationInSeconds = parseInt(duration) * 24 * 60 * 60;
       const now = new Date();
       const quarantineDate = new Date(date);
@@ -60,7 +60,7 @@ export default function HomeScreen({ navigation, route }) {
           style={styles.button}
           onPress={async () => {
             await removeFromStorage("quarantineStartDate");
-            await removeFromStorage("quarantineDuration");
+            await removeFromStorage("quarantineDurationInDays");
             navigation.navigate("DateSelector");
             navigation.reset({
               index: 0,

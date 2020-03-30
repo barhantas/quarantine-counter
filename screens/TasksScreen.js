@@ -1,38 +1,88 @@
 import * as React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import * as WebBrowser from "expo-web-browser";
-import { RectButton, ScrollView } from "react-native-gesture-handler";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableHighlight
+} from "react-native";
 
-export default function TasksScreen() {
-  return <Text>qwqwqew</Text>;
+import { TaskItem, ModalContainer } from "../components";
+
+import { readFromStorage } from "../utils";
+import { TASKS } from "../constants/Tasks";
+import Colors from "../constants/Colors";
+
+export default class TasksScreen extends React.Component {
+  state = {
+    totalTaskCount: undefined,
+    isModalVisible: false,
+    selectedItem: undefined
+  };
+
+  componentDidMount = async () => {
+    const totalTaskCount = await readFromStorage("quarantineDurationInDays");
+
+    this.setState({
+      totalTaskCount
+    });
+  };
+
+  toggleModal = selectedItem =>
+    this.setState(({ isModalVisible }) => ({
+      isModalVisible: !isModalVisible,
+      selectedItem
+    }));
+
+  render() {
+    const { totalTaskCount, isModalVisible, selectedItem } = this.state;
+    const data = TASKS.slice(0, totalTaskCount);
+
+    if (!totalTaskCount) {
+      <Text>Loading</Text>;
+    }
+
+    return (
+      <View style={styles.container}>
+        <FlatList
+          data={data}
+          renderItem={({ item }) => (
+            <TaskItem
+              name={item.name}
+              onPress={() => {
+                this.toggleModal(item);
+              }}
+            />
+          )}
+        />
+        <ModalContainer
+          title={selectedItem?.name}
+          isModalVisible={isModalVisible}
+          toggleModal={this.toggleModal}
+        >
+          {/* TODO: Add Task Detail Content Item */}
+          <Text>{selectedItem?.name}</Text>
+          {selectedItem?.challanges.map(challange => (
+            <View>
+              <Text>{challange.name}</Text>
+              <Text>{challange.description}</Text>
+            </View>
+          ))}
+        </ModalContainer>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fafafa"
+    paddingTop: 22,
+    backgroundColor: Colors.white
   },
-  contentContainer: {
-    paddingTop: 15
-  },
-  optionIconContainer: {
-    marginRight: 12
-  },
-  option: {
-    backgroundColor: "#fdfdfd",
-    paddingHorizontal: 15,
-    paddingVertical: 15,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderBottomWidth: 0,
-    borderColor: "#ededed"
-  },
-  lastOption: {
-    borderBottomWidth: StyleSheet.hairlineWidth
-  },
-  optionText: {
-    fontSize: 15,
-    alignSelf: "flex-start",
-    marginTop: 1
+  item: {
+    padding: 10,
+    fontSize: 18,
+    height: 44
   }
 });
