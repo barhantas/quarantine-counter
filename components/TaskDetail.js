@@ -1,11 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ScrollView, View, Text, StyleSheet } from "react-native";
 import { CheckBox } from "react-native-elements";
 
 import Colors from "../constants/Colors";
 
-export function TaskDetail({ task: { challanges = [] } = {} }) {
-  const [isChecked, setIsChecked] = useState(false);
+export function TaskDetail({ task: { challanges = [] } = {} ,onChallangesFinished}) {
+  const [checkedChallanges, setCheckedChallanges] = useState({});
+
+  useEffect(() => {
+    const checkedChallangeCount = Object.keys(checkedChallanges).filter(
+      key => checkedChallanges[key] === true
+    ).length;
+
+    if(challanges.length === checkedChallangeCount){
+      onChallangesFinished()
+    }
+  }, [checkedChallanges]);
 
   return (
     <ScrollView
@@ -13,16 +23,21 @@ export function TaskDetail({ task: { challanges = [] } = {} }) {
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
     >
-      {challanges.map(challange => (
+      {challanges.map(({ name, description }) => (
         <View>
           <CheckBox
-            title={challange.name}
-            checked={isChecked}
+            title={name}
+            checked={checkedChallanges[name]}
             containerStyle={styles.checkboxContainer}
             textStyle={styles.nameText}
-            onPress={() => setIsChecked(!isChecked)}
+            onPress={() => {
+              setCheckedChallanges({
+                ...checkedChallanges,
+                [name]: !checkedChallanges[name]
+              });
+            }}
           />
-          <Text style={styles.descriptionText}>{challange.description}</Text>
+          <Text style={styles.descriptionText}>{description}</Text>
         </View>
       ))}
     </ScrollView>

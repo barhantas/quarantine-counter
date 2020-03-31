@@ -17,7 +17,8 @@ export default class TasksScreen extends React.Component {
   state = {
     totalTaskCount: undefined,
     isModalVisible: false,
-    selectedItem: undefined
+    selectedItem: undefined,
+    compeletedDays: {}
   };
 
   componentDidMount = async () => {
@@ -28,6 +29,14 @@ export default class TasksScreen extends React.Component {
     });
   };
 
+  onChallangesFinished = () => {
+    this.setState(({ isModalVisible, selectedItem, compeletedDays }) => ({
+      isModalVisible: !isModalVisible,
+      selectedItem: undefined,
+      compeletedDays: { ...compeletedDays, [selectedItem.name]: true }
+    }));
+  };
+
   toggleModal = selectedItem =>
     this.setState(({ isModalVisible }) => ({
       isModalVisible: !isModalVisible,
@@ -35,7 +44,7 @@ export default class TasksScreen extends React.Component {
     }));
 
   render() {
-    const { totalTaskCount, isModalVisible, selectedItem } = this.state;
+    const { totalTaskCount, isModalVisible, selectedItem,compeletedDays } = this.state;
     const data = TASKS.slice(0, totalTaskCount);
 
     if (!totalTaskCount) {
@@ -49,6 +58,7 @@ export default class TasksScreen extends React.Component {
           renderItem={({ item }) => (
             <TaskListItem
               name={item.name}
+              isCompleted={compeletedDays[item.name]}
               onPress={() => {
                 this.toggleModal(item);
               }}
@@ -60,7 +70,10 @@ export default class TasksScreen extends React.Component {
           isModalVisible={isModalVisible}
           toggleModal={this.toggleModal}
         >
-          <TaskDetail task={selectedItem} />
+          <TaskDetail
+            task={selectedItem}
+            onChallangesFinished={this.onChallangesFinished}
+          />
         </ModalContainer>
       </View>
     );
