@@ -40,7 +40,7 @@ export function ModalContainer({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 100
+    marginTop: 100,
   },
   modalView: {
     flex: 1,
@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
-    alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -57,7 +56,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.9,
     shadowRadius: 5,
-    elevation: 5
+    elevation: 5,
   },
   title: {
     alignSelf: "center",

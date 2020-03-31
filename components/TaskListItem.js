@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 import Colors from "../constants/Colors";
 
-export function TaskItem({ name,onPress }) {
+export function TaskListItem({ name,onPress }) {
   return (
     <TouchableOpacity
       onPress={() => {

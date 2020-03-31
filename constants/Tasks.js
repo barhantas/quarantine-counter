@@ -3,7 +3,32 @@ export const TASKS = [
     name: "Day 1",
     challanges: [
       { name: "Sleep Well", description: "Sleep Well Description" },
-      { name: "Drink Water", description: "Drink 3 Liter Water" }
+      { name: "Drink Water", description: "Drink 3 Liter Water" },
+      {
+        name: "Share",
+        description: "Share this application with at least 3 of your friends"
+      },
+      { name: "Stay At Home !", description: "Just stay at your safe home." },
+      {
+        name: "Take a photo",
+        description: "Take a screen shot and post this in your story."
+      },
+      {
+        name: "Exercise",
+        description: "Do 15 minute exercise"
+      },
+      {
+        name: "Dummy Task 1",
+        description: "Dummy Task 2 Description"
+      },
+      {
+        name: "Dummy Task 2",
+        description: "Dummy Task 2 Description"
+      },
+      {
+        name: "Dummy Task 3",
+        description: "Dummy Task 2 Description"
+      }
     ]
   },
   {

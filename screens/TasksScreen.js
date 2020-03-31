@@ -7,7 +7,7 @@ import {
   TouchableHighlight
 } from "react-native";
 
-import { TaskItem, ModalContainer } from "../components";
+import { TaskListItem, ModalContainer, TaskDetail } from "../components";
 
 import { readFromStorage } from "../utils";
 import { TASKS } from "../constants/Tasks";
@@ -47,7 +47,7 @@ export default class TasksScreen extends React.Component {
         <FlatList
           data={data}
           renderItem={({ item }) => (
-            <TaskItem
+            <TaskListItem
               name={item.name}
               onPress={() => {
                 this.toggleModal(item);
@@ -60,14 +60,7 @@ export default class TasksScreen extends React.Component {
           isModalVisible={isModalVisible}
           toggleModal={this.toggleModal}
         >
-          {/* TODO: Add Task Detail Content Item */}
-          <Text>{selectedItem?.name}</Text>
-          {selectedItem?.challanges.map(challange => (
-            <View>
-              <Text>{challange.name}</Text>
-              <Text>{challange.description}</Text>
-            </View>
-          ))}
+          <TaskDetail task={selectedItem} />
         </ModalContainer>
       </View>
     );
