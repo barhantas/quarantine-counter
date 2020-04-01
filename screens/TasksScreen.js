@@ -18,7 +18,8 @@ export default class TasksScreen extends React.Component {
     totalTaskCount: undefined,
     isModalVisible: false,
     selectedItem: undefined,
-    compeletedDays: {}
+    compeletedDays: {},
+    checkedChallengeCount: 0
   };
 
   componentDidMount = async () => {
@@ -44,7 +45,7 @@ export default class TasksScreen extends React.Component {
     }));
 
   render() {
-    const { totalTaskCount, isModalVisible, selectedItem,compeletedDays } = this.state;
+    const { totalTaskCount, isModalVisible, selectedItem,compeletedDays, checkedChallengeCount } = this.state;
     const data = TASKS.slice(0, totalTaskCount);
 
     if (!totalTaskCount) {
@@ -58,6 +59,7 @@ export default class TasksScreen extends React.Component {
           renderItem={({ item }) => (
             <TaskListItem
               name={item.name}
+              checkedChallengeCount={checkedChallengeCount}
               isCompleted={compeletedDays[item.name]}
               onPress={() => {
                 this.toggleModal(item);
@@ -73,6 +75,7 @@ export default class TasksScreen extends React.Component {
           <TaskDetail
             task={selectedItem}
             onChallangesFinished={this.onChallangesFinished}
+            getCheckedChallengeCount={checkedChallengeCount}
           />
         </ModalContainer>
       </View>

@@ -4,13 +4,15 @@ import { CheckBox } from "react-native-elements";
 
 import Colors from "../constants/Colors";
 
-export function TaskDetail({ task: { challanges = [] } = {} ,onChallangesFinished}) {
+export function TaskDetail({ task: { challanges = [] } = {} ,onChallangesFinished, getCheckedChallengeCount}) {
   const [checkedChallanges, setCheckedChallanges] = useState({});
 
   useEffect(() => {
     const checkedChallangeCount = Object.keys(checkedChallanges).filter(
       key => checkedChallanges[key] === true
     ).length;
+
+    getCheckedChallengeCount = checkedChallangeCount;
 
     if(challanges.length === checkedChallangeCount){
       onChallangesFinished()
