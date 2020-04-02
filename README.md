@@ -1,5 +1,5 @@
 # quarantine-counter
-fun project as quarantine counter
+fun project as quarantine counter.
 
 ## Contributing
 
