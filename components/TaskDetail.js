@@ -4,39 +4,27 @@ import { CheckBox } from "react-native-elements";
 
 import Colors from "../constants/Colors";
 
-export function TaskDetail({ task: { challanges = [] } = {} ,onChallangesFinished, getCheckedChallengeCount}) {
-  const [checkedChallanges, setCheckedChallanges] = useState({});
-
-  useEffect(() => {
-    const checkedChallangeCount = Object.keys(checkedChallanges).filter(
-      key => checkedChallanges[key] === true
-    ).length;
-
-    getCheckedChallengeCount = checkedChallangeCount;
-
-    if(challanges.length === checkedChallangeCount){
-      onChallangesFinished()
-    }
-  }, [checkedChallanges]);
-
+export function TaskDetail({
+  task: { challanges = [] } = {},
+  handleCheckBoxPress,
+  onChallangesFinished,
+  getCheckedChallengeCount
+}) {
   return (
     <ScrollView
       style={styles.container}
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
     >
-      {challanges.map(({ name, description }) => (
+      {challanges.map(({ id: challangeId, name, description, isCompleted }) => (
         <View>
           <CheckBox
             title={name}
-            checked={checkedChallanges[name]}
+            checked={isCompleted}
             containerStyle={styles.checkboxContainer}
             textStyle={styles.nameText}
             onPress={() => {
-              setCheckedChallanges({
-                ...checkedChallanges,
-                [name]: !checkedChallanges[name]
-              });
+              handleCheckBoxPress(challangeId);
             }}
           />
           <Text style={styles.descriptionText}>{description}</Text>

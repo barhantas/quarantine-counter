@@ -9,7 +9,7 @@ import {
 
 import { TaskListItem, ModalContainer, TaskDetail } from "../components";
 
-import { readFromStorage } from "../utils";
+import { readFromStorage, writeToStorage } from "../utils";
 import { TASKS } from "../constants/Tasks";
 import Colors from "../constants/Colors";
 
@@ -17,36 +17,84 @@ export default class TasksScreen extends React.Component {
   state = {
     totalTaskCount: undefined,
     isModalVisible: false,
-    selectedItem: undefined,
+    selectedTask: undefined,
     compeletedDays: {},
-    checkedChallengeCount: 0
+    checkedChallengeCount: 0,
+    tasks: []
   };
 
   componentDidMount = async () => {
     const totalTaskCount = await readFromStorage("quarantineDurationInDays");
+    const tasks = await readFromStorage("tasks");
 
     this.setState({
-      totalTaskCount
+      totalTaskCount,
+      tasks: tasks.slice(0, totalTaskCount)
+    });
+  };
+
+  componentDidUpdate = async () => {
+    const tasks = await readFromStorage("tasks");
+
+    this.setState({
+      tasks
     });
   };
 
   onChallangesFinished = () => {
-    this.setState(({ isModalVisible, selectedItem, compeletedDays }) => ({
+    this.setState(({ isModalVisible }) => ({
       isModalVisible: !isModalVisible,
-      selectedItem: undefined,
-      compeletedDays: { ...compeletedDays, [selectedItem.name]: true }
+      selectedTask: undefined
     }));
   };
 
-  toggleModal = selectedItem =>
+  toggleModal = async selectedTask => {
+    const tasks = await readFromStorage("tasks");
+
     this.setState(({ isModalVisible }) => ({
       isModalVisible: !isModalVisible,
-      selectedItem
+      selectedTask: !!selectedTask && tasks[selectedTask.id - 1]
     }));
+  };
+
+  handleCheckBoxPress = async challangeId => {
+    const { selectedTask } = this.state;
+    if (selectedTask && selectedTask.id) {
+      const tasks = await readFromStorage("tasks");
+
+      tasks[selectedTask.id - 1].challanges[
+        challangeId - 1
+      ].isCompleted = !tasks[selectedTask.id - 1].challanges[challangeId - 1]
+        .isCompleted;
+
+      await writeToStorage("tasks", tasks);
+
+      this.setState({
+        selectedTask: {
+          ...selectedTask,
+          challanges: [...tasks[selectedTask.id - 1].challanges]
+        }
+      });
+
+      if (
+        tasks[selectedTask.id - 1].challanges.filter(
+          challange => !challange.isCompleted
+        ).length === 0
+      ) {
+        this.onChallangesFinished();
+      }
+    }
+  };
 
   render() {
-    const { totalTaskCount, isModalVisible, selectedItem,compeletedDays, checkedChallengeCount } = this.state;
-    const data = TASKS.slice(0, totalTaskCount);
+    const {
+      totalTaskCount,
+      isModalVisible,
+      selectedTask,
+      compeletedDays,
+      checkedChallengeCount,
+      tasks
+    } = this.state;
 
     if (!totalTaskCount) {
       <Text>Loading</Text>;
@@ -55,12 +103,16 @@ export default class TasksScreen extends React.Component {
     return (
       <View style={styles.container}>
         <FlatList
-          data={data}
+          data={tasks}
           renderItem={({ item }) => (
             <TaskListItem
               name={item.name}
               checkedChallengeCount={checkedChallengeCount}
-              isCompleted={compeletedDays[item.name]}
+              isCompleted={
+                tasks[item.id - 1].challanges.filter(
+                  challange => !challange.isCompleted
+                ).length === 0
+              }
               onPress={() => {
                 this.toggleModal(item);
               }}
@@ -68,14 +120,15 @@ export default class TasksScreen extends React.Component {
           )}
         />
         <ModalContainer
-          title={selectedItem?.name}
+          title={selectedTask?.name}
           isModalVisible={isModalVisible}
           toggleModal={this.toggleModal}
         >
           <TaskDetail
-            task={selectedItem}
+            task={selectedTask}
             onChallangesFinished={this.onChallangesFinished}
             getCheckedChallengeCount={checkedChallengeCount}
+            handleCheckBoxPress={this.handleCheckBoxPress}
           />
         </ModalContainer>
       </View>
