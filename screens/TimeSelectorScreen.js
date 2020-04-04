@@ -7,6 +7,7 @@ import Button from 'react-native-button';
 
 import { writeToStorage, readFromStorage, removeFromStorage, utilizeStartDate } from "../utils";
 import moment from "moment";
+import AppStyle from "../AppStyle";
 
 export default function TimeSelectorScreen({ navigation, route }) {
 
@@ -48,22 +49,23 @@ export default function TimeSelectorScreen({ navigation, route }) {
         })}
 
       </Picker>
-      <Button
-        containerStyle={styles.buttonContainer}
-        style={styles.button}
-        onPress={async () => {
-          await writeToStorage("quarantineDurationInDays", day);
-          // utilizeStartDate(JSON.parse(date));
-          await writeToStorage("quarantineStartDate", utilizeStartDate(JSON.parse(selectedStartDate)));
-          navigation.reset({
-            index: 0,
-            routes: [{ name: 'App' }],
-          });
-          navigation.navigate("App");
-        }}
-      >
-        Start
+      <View style={styles.buttonContainer}>
+        <Button
+          style={styles.button}
+          onPress={async () => {
+            await writeToStorage("quarantineDurationInDays", day);
+            // utilizeStartDate(JSON.parse(date));
+            await writeToStorage("quarantineStartDate", utilizeStartDate(JSON.parse(selectedStartDate)));
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'App' }],
+            });
+            navigation.navigate("App");
+          }}
+        >
+          Start
           </Button>
+      </View>
 
     </View>
   );
@@ -78,31 +80,19 @@ TimeSelectorScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff"
+    ...AppStyle.container
   },
   header: {
-    fontSize: 25,
-    textAlign: 'center',
-    padding: 10
+    ...AppStyle.header
   },
   dummyStyle: { marginTop: 60 },
   button: {
-    marginTop: 60,
-    fontSize: 20,
-    color: 'white',
-    padding: 10,
-    borderRadius: 20,
-    backgroundColor: '#48BB78',
-    width: 200,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    overflow: 'hidden'
+    ...AppStyle.defaultButton
   },
   buttonContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
+    ...AppStyle.defaultButtonContainer,
+    flex: 1,
+    justifyContent: 'flex-end',
+    marginBottom: 20
   }
 });

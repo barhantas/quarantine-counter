@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import TabBarIcon from "../components/TabBarIcon";
 import HomeScreen from "../screens/HomeScreen";
 import TasksScreen from "../screens/TasksScreen";
+import Colors from "../constants/Colors";
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = "Home";
@@ -12,17 +13,20 @@ export default function BottomTabNavigator({ navigation, route }) {
   // Set the header title on the parent stack navigator depending on the
   // currently active tab. Learn more in the documentation:
   // https://reactnavigation.org/docs/en/screen-options-resolution.html
-  navigation.setOptions({ headerTitle: getHeaderTitle(route) });
+  navigation.setOptions({ headerTitle: getHeaderTitle(route)});
+  const options = {
+    activeTintColor: Colors.green500
+  }
 
   return (
-    <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
+    <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME} tabBarOptions={options}>
       <BottomTab.Screen
         name="Home"
         component={HomeScreen}
         options={{
-          title: "Home",
+          title: "Counter",
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name="home" />
+            <TabBarIcon focused={focused} name="calculator" />
           )
         }}
       />
@@ -46,7 +50,7 @@ function getHeaderTitle(route) {
 
   switch (routeName) {
     case "Home":
-      return "";
+      return "Counter";
     case "Tasks":
       return "Daily Tasks";
   }

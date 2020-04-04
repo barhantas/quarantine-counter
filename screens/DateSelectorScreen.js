@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import AppStyle from '../AppStyle'
 
 import { AsyncStorage, StyleSheet, Text, View } from "react-native";
 import Button from "react-native-button";
@@ -43,16 +44,16 @@ export default function DateSelectorScreen({ navigation, route }) {
 
   if (loading) {
     return (
-      <View style={styles.container}>
+      <View style={AppStyle.container}>
         <Text>Loading..</Text>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <View>
-        <Text style={styles.header}>Choose Start Date</Text>
+
+      <View style={AppStyle.container}>
+        <Text style={AppStyle.header}>Choose Start Date</Text>
         <DateTimePicker
           testID="dateTimePicker"
           timeZoneOffsetInMinutes={0}
@@ -63,11 +64,10 @@ export default function DateSelectorScreen({ navigation, route }) {
           display="default"
           onChange={onChange}
         />
-        <Button
-          containerStyle={styles.buttonContainer}
+        <View style={styles.buttonContainer}>
+          <Button
           style={styles.button}
           onPress={async () => {
-            // await writeToStorage("quarantineStartDate", date);
             await writeToStorage("tasks", TASKS);
             navigation.navigate("TimeSelector", {
               selectedStartDate: JSON.stringify(date)
@@ -76,7 +76,9 @@ export default function DateSelectorScreen({ navigation, route }) {
         >
           Next
         </Button>
-      </View>
+        </View>
+        
+
     </View>
   );
 }
@@ -87,31 +89,14 @@ DateSelectorScreen.navigationOptions = {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff"
-  },
-  header: {
-    fontSize: 25,
-    textAlign: "center",
-    padding: 20
-  },
-  button: {
-    marginTop: 60,
-    fontSize: 20,
-    color: "white",
-    padding: 10,
-    borderRadius: 20,
-    backgroundColor: "#48BB78",
-    width: 200,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "hidden"
-  },
-  buttonContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center"
-  }
+    button: {
+      ...AppStyle.defaultButton,
+
+    },
+    buttonContainer: {
+      ...AppStyle.defaultButtonContainer,
+      flex: 1,
+      justifyContent: 'flex-end',
+      marginBottom: 20
+    }
 });

@@ -10,6 +10,7 @@ import BottomTabNavigator from "./navigation/BottomTabNavigator";
 import useLinking from "./navigation/useLinking";
 import DateSelectorScreen from "./screens/DateSelectorScreen";
 import TimeSelectorScreen from "./screens/TimeSelectorScreen";
+import AppStyle from './AppStyle';
 
 const Stack = createStackNavigator();
 
@@ -76,7 +77,6 @@ export default function App(props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff"
+    ...AppStyle.container
   }
 });

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { StyleSheet, Text, View } from "react-native";
+import AppStyle from '../AppStyle';
 import CountDown from 'react-native-countdown-component';
 import Button from 'react-native-button';
 
@@ -22,41 +23,38 @@ export default function HomeScreen({ navigation, route }) {
       const quarantineEndDate = moment(date).add(duration, 'days');
       const countDown = quarantineEndDate.diff(moment(), 'seconds')
 
-      console.log('quarantineEndDate: ', quarantineEndDate);
-      console.log('date: ', date);
-
-      // const nowWithExactDays = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
-      // const dateWithExactDays = new Date(quarantineDate.getFullYear(), quarantineDate.getMonth(), quarantineDate.getDate(), 0, 0, 0);
       setQuarantineCounter(countDown);
 
       setIsLoading(false);
+      return () => {
+
+      }
     }
     getQuarantineCounter();
   }, []);
 
   if (loading) {
     return (
-      <View style={styles.container}>
+      <View style={AppStyle.container}>
         <Text>Loading..</Text>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <View style={AppStyle.container}>
 
-      <View>
-        <Text style={styles.header}>Your Quarantine Ends In:</Text>
-        <CountDown
-          until={quarantineCounter}
-          onPress={() => alert('hello')}
-          size={20}
-          digitStyle={styles.digitStyle}
-          digitTxtStyle={styles.digitTxtStyle}
-        />
+      <Text style={AppStyle.header}>Your Quarantine Ends In:</Text>
+      <CountDown
+        until={quarantineCounter}
+        size={20}
+        digitStyle={styles.digitStyle}
+        digitTxtStyle={styles.digitTxtStyle}
+      />
+      <View style={styles.buttonContainer}>
+
         <Button
-          containerStyle={styles.buttonContainer}
-          style={styles.button}
+          style={AppStyle.defaultButton}
           onPress={async () => {
             await removeFromStorage("quarantineStartDate");
             await removeFromStorage("quarantineDurationInDays");
@@ -81,38 +79,16 @@ HomeScreen.navigationOptions = {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff"
-  },
-  header: {
-    fontSize: 25,
-    textAlign: 'center',
-    padding: 20
-  },
-  dummyStyle: { marginTop: 60 },
   digitStyle: {
     backgroundColor: '#48BB78'
   },
   digitTxtStyle: {
     color: 'white'
   },
-  button: {
-    marginTop: 60,
-    fontSize: 20,
-    color: 'white',
-    padding: 10,
-    borderRadius: 20,
-    backgroundColor: '#48BB78',
-    width: 300,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    overflow: 'hidden'
-  },
   buttonContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
+    ...AppStyle.defaultButtonContainer,
+    flex: 1,
+    justifyContent: 'flex-end',
+    marginBottom: 20
   }
 });
