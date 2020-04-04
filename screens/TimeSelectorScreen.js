@@ -5,9 +5,21 @@ import { AsyncStorage, StyleSheet, Text, View, Picker } from "react-native";
 
 import Button from 'react-native-button';
 
-import { writeToStorage, readFromStorage, removeFromStorage } from "../utils";
+import { writeToStorage, readFromStorage, removeFromStorage, utilizeStartDate } from "../utils";
+import moment from "moment";
 
 export default function TimeSelectorScreen({ navigation, route }) {
+
+  const calculateStartDate = (date) => {
+    var now = moment();
+    date.hour(now.hour());
+    date.minute(now.minute());
+    date.second(now.second());
+  }
+
+  const { selectedStartDate } = route.params;
+
+  console.log('selectedDate: ', selectedStartDate);
 
   const [day, setDay] = useState('14');
 
@@ -41,6 +53,8 @@ export default function TimeSelectorScreen({ navigation, route }) {
         style={styles.button}
         onPress={async () => {
           await writeToStorage("quarantineDurationInDays", day);
+          // utilizeStartDate(JSON.parse(date));
+          await writeToStorage("quarantineStartDate", utilizeStartDate(JSON.parse(selectedStartDate)));
           navigation.reset({
             index: 0,
             routes: [{ name: 'App' }],

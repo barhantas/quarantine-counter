@@ -5,6 +5,7 @@ import CountDown from 'react-native-countdown-component';
 import Button from 'react-native-button';
 
 import { readFromStorage, removeFromStorage, writeToStorage } from "../utils/";
+import moment from 'moment';
 
 export default function HomeScreen({ navigation, route }) {
   const [loading, setIsLoading] = useState(false);
@@ -15,20 +16,18 @@ export default function HomeScreen({ navigation, route }) {
   useEffect(() => {
     async function getQuarantineCounter() {
       setIsLoading(true);
-      // const savedQuarantineCounter = await readFromStorage("quarantineCounter");
-      // console.log(savedQuarantineCounter);
 
       const date = await readFromStorage("quarantineStartDate");
       const duration = await readFromStorage("quarantineDurationInDays");
-      const durationInSeconds = parseInt(duration) * 24 * 60 * 60;
-      const now = new Date();
-      const quarantineDate = new Date(date);
-      const nowWithExactDays = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
-      const dateWithExactDays = new Date(quarantineDate.getFullYear(), quarantineDate.getMonth(), quarantineDate.getDate(), 0, 0, 0);
-      setQuarantineCounter(nowWithExactDays.getTime() / 1000 + durationInSeconds - new Date(dateWithExactDays).getTime() / 1000);
-      // await writeToStorage("quarantineCounter", quarantineCounter);
-      // setDate(date ? new Date(date) : new Date());
+      const quarantineEndDate = moment(date).add(duration, 'days');
+      const countDown = quarantineEndDate.diff(moment(), 'seconds')
 
+      console.log('quarantineEndDate: ', quarantineEndDate);
+      console.log('date: ', date);
+
+      // const nowWithExactDays = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+      // const dateWithExactDays = new Date(quarantineDate.getFullYear(), quarantineDate.getMonth(), quarantineDate.getDate(), 0, 0, 0);
+      setQuarantineCounter(countDown);
 
       setIsLoading(false);
     }
