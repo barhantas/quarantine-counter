@@ -59,7 +59,7 @@ export default function App(props) {
             <Stack.Screen
               name="DateSelector"
               component={DateSelectorScreen}
-              options={{ title: "Quarantine Timer" }}
+              options={{ title: "Quarantine Timer" , gestureEnabled: false}}
             />
             <Stack.Screen
               name="TimeSelector"

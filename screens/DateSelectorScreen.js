@@ -67,9 +67,11 @@ export default function DateSelectorScreen({ navigation, route }) {
           containerStyle={styles.buttonContainer}
           style={styles.button}
           onPress={async () => {
-            await writeToStorage("quarantineStartDate", date);
+            // await writeToStorage("quarantineStartDate", date);
             await writeToStorage("tasks", TASKS);
-            navigation.navigate("TimeSelector");
+            navigation.navigate("TimeSelector", {
+              selectedStartDate: JSON.stringify(date)
+            });
           }}
         >
           Next
