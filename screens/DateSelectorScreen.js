@@ -9,8 +9,7 @@ import { writeToStorage, readFromStorage, removeFromStorage } from "../utils";
 import { TASKS } from "../constants/Tasks";
 
 export default function DateSelectorScreen({ navigation, route }) {
-  const [loading, setIsLoading] = useState(new Date(1598051730000));
-  const [date, setDate] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(new Date());
 
   const onChange = (event, selectedDate) => {
     console.log(selectedDate);
@@ -19,39 +18,7 @@ export default function DateSelectorScreen({ navigation, route }) {
     setDate(currentDate);
   };
 
-  useEffect(() => {
-    let isCancelled = false;
-    async function getQuarantineStartDate() {
-      setIsLoading(true);
-      const date = await readFromStorage("quarantineStartDate");
-      if (date) {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: "App" }]
-        });
-        navigation.navigate("App");
-      }
-      setDate(date ? new Date(date) : new Date());
-      setIsLoading(false);
-    }
-    if (!isCancelled) {
-      getQuarantineStartDate();
-    }
-    return () => {
-      isCancelled = true;
-    };
-  }, []);
-
-  if (loading) {
-    return (
-      <View style={AppStyle.container}>
-        <Text>Loading..</Text>
-      </View>
-    );
-  }
-
   return (
-
       <View style={AppStyle.container}>
         <Text style={AppStyle.header}>Choose Start Date</Text>
         <DateTimePicker
