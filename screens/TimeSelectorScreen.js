@@ -1,32 +1,21 @@
 import React, { useState, useEffect } from "react";
-import DateTimePicker from "@react-native-community/datetimepicker";
-
-import { AsyncStorage, StyleSheet, Text, View, Picker } from "react-native";
-
-import Button from 'react-native-button';
-
-import { writeToStorage, readFromStorage, removeFromStorage, utilizeStartDate } from "../utils";
+import { StyleSheet, Text, View, Picker } from "react-native";
+import Button from "react-native-button";
 import moment from "moment";
+
+import { writeToStorage, readFromStorage, utilizeStartDate } from "../utils";
+
+import { TASKS } from "../constants/Tasks";
+
 import AppStyle from "../AppStyle";
 
-export default function TimeSelectorScreen({ navigation, route }) {
+export default function TimeSelectorScreen({
+  navigation,
+  route: { params: { selectedStartDate } } = {}
+}) {
+  const [day, setDay] = useState("14");
 
-  const calculateStartDate = (date) => {
-    var now = moment();
-    date.hour(now.hour());
-    date.minute(now.minute());
-    date.second(now.second());
-  }
-
-  const { selectedStartDate } = route.params;
-
-  console.log('selectedDate: ', selectedStartDate);
-
-  const [day, setDay] = useState('14');
-
-  useEffect(() => {
-  }, []);
-
+  useEffect(() => {}, []);
 
   const days = [];
 
@@ -34,20 +23,24 @@ export default function TimeSelectorScreen({ navigation, route }) {
     days.push(i);
   }
 
-
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Choose Duration</Text>
       <Picker
         selectedValue={day}
-        onValueChange={(val) => { setDay(val) }}
+        onValueChange={val => {
+          setDay(val);
+        }}
       >
         {days.map((item, index) => {
           return (
-            <Picker.Item label={item.toString()} value={item.toString()} key={item} />
+            <Picker.Item
+              label={item.toString()}
+              value={item.toString()}
+              key={item}
+            />
           );
         })}
-
       </Picker>
       <View style={styles.buttonContainer}>
         <Button
@@ -55,23 +48,24 @@ export default function TimeSelectorScreen({ navigation, route }) {
           onPress={async () => {
             await writeToStorage("quarantineDurationInDays", day);
             // utilizeStartDate(JSON.parse(date));
-            await writeToStorage("quarantineStartDate", utilizeStartDate(JSON.parse(selectedStartDate)));
+            await writeToStorage(
+              "quarantineStartDate",
+              utilizeStartDate(JSON.parse(selectedStartDate))
+            );
+            await writeToStorage("tasks", TASKS.slice(0, day));
+
             navigation.reset({
               index: 0,
-              routes: [{ name: 'App' }],
+              routes: [{ name: "App" }]
             });
-            navigation.navigate("App");
           }}
         >
           Start
-          </Button>
+        </Button>
       </View>
-
     </View>
   );
 }
-
-
 
 TimeSelectorScreen.navigationOptions = {
   header: null,
@@ -92,7 +86,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     ...AppStyle.defaultButtonContainer,
     flex: 1,
-    justifyContent: 'flex-end',
-    marginBottom: 20
+    justifyContent: "flex-end",
+    marginBottom: 120
   }
 });
