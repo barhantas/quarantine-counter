@@ -1,5 +1,5 @@
-import * as React from "react";
-import { Platform, StatusBar, StyleSheet, View } from "react-native";
+import React, { useEffect } from "react";
+import { AppState, Platform, StatusBar, StyleSheet, View } from "react-native";
 import { SplashScreen } from "expo";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
@@ -10,7 +10,7 @@ import BottomTabNavigator from "./navigation/BottomTabNavigator";
 import useLinking from "./navigation/useLinking";
 import DateSelectorScreen from "./screens/DateSelectorScreen";
 import TimeSelectorScreen from "./screens/TimeSelectorScreen";
-import AppStyle from './AppStyle';
+import AppStyle from "./AppStyle";
 
 const Stack = createStackNavigator();
 
@@ -20,8 +20,16 @@ export default function App(props) {
   const containerRef = React.useRef();
   const { getInitialState } = useLinking(containerRef);
 
-  // Load any resources or data that we need prior to rendering the app
-  React.useEffect(() => {
+  handleAppStateChange = nextAppState => {
+    console.log("nextAppState", nextAppState);
+    if (nextAppState === "inactive") {
+      // console.log("the app is closed");
+    }
+  };
+
+  useEffect(() => {
+    AppState.addEventListener("change", handleAppStateChange);
+
     async function loadResourcesAndDataAsync() {
       try {
         SplashScreen.preventAutoHide();
@@ -44,6 +52,14 @@ export default function App(props) {
     }
 
     loadResourcesAndDataAsync();
+    return () => {
+      AppState.removeEventListener("change", _handleAppStateChange);
+    };
+  }, []);
+
+  // Load any resources or data that we need prior to rendering the app
+  React.useEffect(() => {
+    AppState.addEventListener("change", handleAppStateChange);
   }, []);
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
@@ -60,7 +76,7 @@ export default function App(props) {
             <Stack.Screen
               name="DateSelector"
               component={DateSelectorScreen}
-              options={{ title: "Quarantine Timer" , gestureEnabled: false}}
+              options={{ title: "Quarantine Timer", gestureEnabled: false }}
             />
             <Stack.Screen
               name="TimeSelector"

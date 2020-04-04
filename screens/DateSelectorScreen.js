@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import AppStyle from '../AppStyle'
+import AppStyle from "../AppStyle";
 
-import { AsyncStorage, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import Button from "react-native-button";
 
-import { writeToStorage, readFromStorage, removeFromStorage } from "../utils";
-import { TASKS } from "../constants/Tasks";
+import { readFromStorage } from "../utils";
 
 export default function DateSelectorScreen({ navigation, route }) {
   const [loading, setIsLoading] = useState(new Date(1598051730000));
@@ -29,7 +28,6 @@ export default function DateSelectorScreen({ navigation, route }) {
           index: 0,
           routes: [{ name: "App" }]
         });
-        navigation.navigate("App");
       }
       setDate(date ? new Date(date) : new Date());
       setIsLoading(false);
@@ -51,24 +49,22 @@ export default function DateSelectorScreen({ navigation, route }) {
   }
 
   return (
-
-      <View style={AppStyle.container}>
-        <Text style={AppStyle.header}>Choose Start Date</Text>
-        <DateTimePicker
-          testID="dateTimePicker"
-          timeZoneOffsetInMinutes={0}
-          maximumDate={new Date()}
-          value={date}
-          mode="date"
-          is24Hour={true}
-          display="default"
-          onChange={onChange}
-        />
-        <View style={styles.buttonContainer}>
-          <Button
+    <View style={AppStyle.container}>
+      <Text style={AppStyle.header}>Choose Start Date</Text>
+      <DateTimePicker
+        testID="dateTimePicker"
+        timeZoneOffsetInMinutes={0}
+        maximumDate={new Date()}
+        value={date}
+        mode="date"
+        is24Hour={true}
+        display="default"
+        onChange={onChange}
+      />
+      <View style={styles.buttonContainer}>
+        <Button
           style={styles.button}
           onPress={async () => {
-            await writeToStorage("tasks", TASKS);
             navigation.navigate("TimeSelector", {
               selectedStartDate: JSON.stringify(date)
             });
@@ -76,9 +72,7 @@ export default function DateSelectorScreen({ navigation, route }) {
         >
           Next
         </Button>
-        </View>
-        
-
+      </View>
     </View>
   );
 }
@@ -89,14 +83,13 @@ DateSelectorScreen.navigationOptions = {
 };
 
 const styles = StyleSheet.create({
-    button: {
-      ...AppStyle.defaultButton,
-
-    },
-    buttonContainer: {
-      ...AppStyle.defaultButtonContainer,
-      flex: 1,
-      justifyContent: 'flex-end',
-      marginBottom: 20
-    }
+  button: {
+    ...AppStyle.defaultButton
+  },
+  buttonContainer: {
+    ...AppStyle.defaultButtonContainer,
+    flex: 1,
+    justifyContent: "flex-end",
+    marginBottom: 120
+  }
 });
