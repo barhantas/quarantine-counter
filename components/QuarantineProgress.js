@@ -28,7 +28,7 @@ export function QuarantineProgress({
     ((totalTimeInSeconds - quarantineCounter + seconds) / totalTimeInSeconds) *
     100;
 
-  const progressText = `%${(progress / 100).toFixed(4)}`;
+  const progressText = `%${(progress).toFixed(4)}`;
 
   return (
     <View style={styles.container}>
