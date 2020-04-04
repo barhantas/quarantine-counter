@@ -11,12 +11,16 @@ import useLinking from "./navigation/useLinking";
 import DateSelectorScreen from "./screens/DateSelectorScreen";
 import TimeSelectorScreen from "./screens/TimeSelectorScreen";
 import AppStyle from "./AppStyle";
+import { readFromStorage } from "./utils";
+
 
 const Stack = createStackNavigator();
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
+  const [date, setDate] = React.useState();
+
   const containerRef = React.useRef();
   const { getInitialState } = useLinking(containerRef);
 
@@ -36,7 +40,7 @@ export default function App(props) {
 
         // Load our initial navigation state
         setInitialNavigationState(await getInitialState());
-
+        setDate(await readFromStorage("quarantineStartDate"));
         // Load fonts
         await Font.loadAsync({
           ...Ionicons.font,
@@ -72,7 +76,7 @@ export default function App(props) {
           ref={containerRef}
           initialState={initialNavigationState}
         >
-          <Stack.Navigator>
+          <Stack.Navigator initialRouteName={date ? 'App' : 'DateSelector'}>
             <Stack.Screen
               name="DateSelector"
               component={DateSelectorScreen}
