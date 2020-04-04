@@ -7,8 +7,7 @@ import Colors from "../constants/Colors";
 export function TaskDetail({
   task: { challanges = [] } = {},
   handleCheckBoxPress,
-  onChallangesFinished,
-  getCheckedChallengeCount
+  onChallangesFinished
 }) {
   return (
     <ScrollView

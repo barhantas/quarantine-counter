@@ -107,7 +107,7 @@ export default class TasksScreen extends React.Component {
           renderItem={({ item }) => (
             <TaskListItem
               name={item.name}
-              checkedChallengeCount={checkedChallengeCount}
+              challenges={tasks[item.id - 1].challanges}
               isCompleted={
                 tasks[item.id - 1].challanges.filter(
                   challange => !challange.isCompleted
@@ -127,7 +127,6 @@ export default class TasksScreen extends React.Component {
           <TaskDetail
             task={selectedTask}
             onChallangesFinished={this.onChallangesFinished}
-            getCheckedChallengeCount={checkedChallengeCount}
             handleCheckBoxPress={this.handleCheckBoxPress}
           />
         </ModalContainer>

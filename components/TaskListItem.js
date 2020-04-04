@@ -5,7 +5,9 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 import Colors from "../constants/Colors";
 
-export function TaskListItem({ name, onPress, isCompleted, isCurrentDay, checkedChallengeCount }) {
+export function TaskListItem({ name, onPress, isCompleted, isCurrentDay, challenges }) {
+
+  
   return (
     <TouchableOpacity
       style={styles.wrapper}
@@ -21,9 +23,9 @@ export function TaskListItem({ name, onPress, isCompleted, isCurrentDay, checked
         ]}
       >
         {/* TODO: get checked challenges, calculate progress and width */}
-        <View style={[styles.progress, {width: 0}]}>
+        <View style={[styles.progress, {width: getTaskProgress(challenges)}]}>
         </View>
-        <Text style={styles.text}>{name}</Text>
+      <Text style={styles.text}>{name}{}</Text>
         {/* <Text style={styles.text}>{checkedChallengeCount}</Text> */}
         <MaterialIcons
           name={isCompleted ? "check-circle" : 'radio-button-unchecked'}
@@ -38,9 +40,14 @@ export function TaskListItem({ name, onPress, isCompleted, isCurrentDay, checked
   );
 }
 
-function getTaskProgress() {
+const getTaskProgress = (challenges) => {
+  const total = challenges.length;
+  const completed = challenges.filter( challenge => {
+    return challenge.isCompleted;
+  }).length;
+  return `${(completed / total).toFixed(2) *100}%`;
 
-}
+};
 
 const styles = StyleSheet.create({
   // wrapper: { borderBottomWidth: 1, borderBottomColor: Colors.grey100 },
