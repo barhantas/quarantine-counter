@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Alert } from "react-native";
 import AppStyle from '../AppStyle';
 import CountDown from 'react-native-countdown-component';
 import Button from 'react-native-button';
@@ -33,6 +33,33 @@ export default function HomeScreen({ navigation, route }) {
     getQuarantineCounter();
   }, []);
 
+  const onFinishQuarantinePressed = () => {
+    Alert.alert(
+      'Are you sure you want to finish your quarantine?',
+      '',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: 'Yes', onPress: async () => {
+            await removeFromStorage("quarantineStartDate");
+            await removeFromStorage("quarantineDurationInDays");
+            navigation.navigate("DateSelector");
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'DateSelector' }],
+            });
+          }
+        },
+      ],
+      { cancelable: false }
+    );
+
+  }
+
   if (loading) {
     return (
       <View style={AppStyle.container}>
@@ -55,15 +82,7 @@ export default function HomeScreen({ navigation, route }) {
 
         <Button
           style={AppStyle.defaultButton}
-          onPress={async () => {
-            await removeFromStorage("quarantineStartDate");
-            await removeFromStorage("quarantineDurationInDays");
-            navigation.navigate("DateSelector");
-            navigation.reset({
-              index: 0,
-              routes: [{ name: 'DateSelector' }],
-            });
-          }}
+          onPress={onFinishQuarantinePressed}
         >
           Finish My Quarantine
           </Button>
