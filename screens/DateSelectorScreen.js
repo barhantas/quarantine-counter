@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AppStyle from "../AppStyle";
 
-import { AsyncStorage, StyleSheet, Text, View, Platform, Image } from "react-native";
+import { StyleSheet, Text, View, Platform, Image } from "react-native";
 import Button from "react-native-button";
 
-import { readFromStorage } from "../utils";
 import moment from "moment";
-import Colors from "../constants/Colors";
 
 export default function DateSelectorScreen({ navigation, route }) {
   const [date, setDate] = useState(new Date());
@@ -21,7 +19,6 @@ export default function DateSelectorScreen({ navigation, route }) {
   const onChange = (event, selectedDate) => {
     if (Platform.OS === 'android') {
       if (event.type === 'set' || event.type === 'dismissed') {
-        console.log('hey!')
         setDateTimePickerVisible(false);
         console.log(dateTimePickerVisible)
       }
@@ -46,7 +43,6 @@ export default function DateSelectorScreen({ navigation, route }) {
       />}
 
       {Platform.OS === 'android' &&
-
         <Image
           style={styles.image}
           source={require('../assets/images/date-selector.png')}
@@ -54,8 +50,7 @@ export default function DateSelectorScreen({ navigation, route }) {
       }
       <View style={styles.buttonContainer}>
         {Platform.OS === 'android' && !dateTimePickerVisible &&
-
-          <View style={{ marginBottom: 20 }}>
+          <View style={styles.outlinedButtonContainer}>
             <Button
               style={AppStyle.outlinedButton}
               onPress={() => {
@@ -91,6 +86,9 @@ const styles = StyleSheet.create({
   button: {
     ...AppStyle.defaultButton,
 
+  },
+  outlinedButtonContainer: {
+    marginBottom: 20
   },
   image: {
     flex: 1,

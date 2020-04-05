@@ -38,7 +38,7 @@ export default function HomeScreen({ navigation, route }) {
     getQuarantineCounter();
   }, []);
 
-  const onFinishQuarantinePressed = () => {
+  const onPressFinishQuarantine = () => {
     Alert.alert(
       'Are you sure you want to finish your quarantine?',
       '',
@@ -91,7 +91,7 @@ export default function HomeScreen({ navigation, route }) {
 
         <Button
           style={AppStyle.defaultButton}
-          onPress={onFinishQuarantinePressed}
+          onPress={onPressFinishQuarantine}
         >
           Finish My Quarantine
           </Button>

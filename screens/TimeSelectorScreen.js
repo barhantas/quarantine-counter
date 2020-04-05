@@ -16,20 +16,7 @@ export default function TimeSelectorScreen({
   route: { params: { selectedStartDate } } = {}
 }) {
 
-  useEffect(() => { }, []);
-  const calculateStartDate = (date) => {
-    var now = moment();
-    date.hour(now.hour());
-    date.minute(now.minute());
-    date.second(now.second());
-  }
-  console.log('selectedDate: ', selectedStartDate);
-
   const [day, setDay] = useState('14');
-
-
-
-
   const days = [];
 
   for (var i = 1; i <= 30; i++) {
@@ -41,18 +28,17 @@ export default function TimeSelectorScreen({
     <View style={styles.container}>
       <Text style={styles.header}>Choose Duration</Text>
       {Platform.OS === 'android' &&
-
         <Image
           style={styles.image}
           source={require('../assets/images/time-selector.png')}
         />
       }
       <View style={Platform.OS === 'android' ? styles.buttonContainer : { flex: 1 }}>
-        <View style={Platform.OS === 'android' ? styles.pickerWrapper : {}}>
+        <View style={Platform.OS === 'android' && styles.pickerWrapper}>
           <Picker
             selectedValue={day}
             onValueChange={(val) => { setDay(val) }}
-            style={Platform.OS === 'android' ? styles.picker : {}}
+            style={Platform.OS === 'android' && styles.picker}
             prompt="Duration"
           >
             {days.map((item, index) => {
@@ -63,12 +49,11 @@ export default function TimeSelectorScreen({
 
           </Picker>
         </View>
-        <View style={Platform.OS === 'ios' ? styles.buttonContainer : {}}>
+        <View style={Platform.OS === 'ios' && styles.buttonContainer}>
           <Button
             style={styles.button}
             onPress={async () => {
               await writeToStorage("quarantineDurationInDays", day);
-              // utilizeStartDate(JSON.parse(date));
               await writeToStorage("quarantineStartDate", utilizeStartDate(JSON.parse(selectedStartDate)));
               await writeToStorage("tasks", TASKS.slice(0, day));
               navigation.reset({
