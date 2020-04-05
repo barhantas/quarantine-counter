@@ -1,4 +1,4 @@
-export const TASKS = [
+export const TASKS_EN = [
   {
     id: 1,
     name: "Day 1",

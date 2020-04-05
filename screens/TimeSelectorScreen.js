@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Picker, Platform, Image } from "react-native";
 import Button from "react-native-button";
 import moment from "moment";
+import i18n from "i18n-js";
 
 import { writeToStorage, readFromStorage, utilizeStartDate } from "../utils";
 
-import { TASKS } from "../constants/Tasks";
+import { TASKS_TR } from "../constants/Tasks_TR";
+import { TASKS_EN } from "../constants/Tasks_EN";
 
 import AppStyle from "../AppStyle";
 import Colors from "../constants/Colors";
@@ -21,9 +23,11 @@ export default function TimeSelectorScreen({
     days.push(i);
   }
 
+  const localTasks = i18n.locale === "tr-TR" ? TASKS_TR : TASKS_EN;
+
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Choose Duration</Text>
+      <Text style={styles.header}>{i18n.t("titleChooseDuration")}</Text>
       {Platform.OS === "android" && (
         <Image
           style={styles.image}
@@ -61,15 +65,15 @@ export default function TimeSelectorScreen({
               await writeToStorage(
                 "quarantineStartDate",
                 utilizeStartDate(JSON.parse(selectedStartDate))
-              );
-              await writeToStorage("tasks", TASKS.slice(0, day));
+              );           
+              await writeToStorage("tasks", localTasks.slice(0, day));
               navigation.reset({
                 index: 0,
                 routes: [{ name: "App" }],
               });
             }}
           >
-            Start
+            {i18n.t("labelStart")}
           </Button>
         </View>
       </View>

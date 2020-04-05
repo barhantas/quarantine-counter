@@ -12,9 +12,16 @@ import DateSelectorScreen from "./screens/DateSelectorScreen";
 import TimeSelectorScreen from "./screens/TimeSelectorScreen";
 import AppStyle from "./AppStyle";
 import { readFromStorage } from "./utils";
-
+import * as Localization from "expo-localization";
+import i18n from "i18n-js";
+import AppTranslation from "./AppTranslation";
 
 const Stack = createStackNavigator();
+
+i18n.translations = AppTranslation;
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
+
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
@@ -24,7 +31,7 @@ export default function App(props) {
   const containerRef = React.useRef();
   const { getInitialState } = useLinking(containerRef);
 
-  handleAppStateChange = nextAppState => {
+  handleAppStateChange = (nextAppState) => {
     console.log("nextAppState", nextAppState);
     if (nextAppState === "inactive") {
       // console.log("the app is closed");
@@ -44,7 +51,7 @@ export default function App(props) {
         // Load fonts
         await Font.loadAsync({
           ...Ionicons.font,
-          "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf")
+          "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf"),
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
@@ -57,7 +64,7 @@ export default function App(props) {
 
     loadResourcesAndDataAsync();
     return () => {
-      AppState.removeEventListener("change", _handleAppStateChange);
+      AppState.removeEventListener("change", handleAppStateChange);
     };
   }, []);
 
@@ -76,16 +83,22 @@ export default function App(props) {
           ref={containerRef}
           initialState={initialNavigationState}
         >
-          <Stack.Navigator initialRouteName={date ? 'App' : 'DateSelector'}>
+          <Stack.Navigator initialRouteName={date ? "App" : "DateSelector"}>
             <Stack.Screen
               name="DateSelector"
               component={DateSelectorScreen}
-              options={{ title: "Quarantine Timer", gestureEnabled: false }}
+              options={{
+                title: i18n.t("screenTitleQuarantineTimer"),
+                gestureEnabled: false,
+              }}
             />
             <Stack.Screen
               name="TimeSelector"
               component={TimeSelectorScreen}
-              options={{ title: "Quarantine Timer" }}
+              options={{
+                title: i18n.t("screenTitleQuarantineTimer"),
+                headerBackTitle: i18n.t("labelBack"),
+              }}
             />
             <Stack.Screen name="App" component={BottomTabNavigator} />
           </Stack.Navigator>
@@ -96,7 +109,5 @@ export default function App(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    ...AppStyle.container
-  }
+  container: AppStyle.container,
 });

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AppStyle from "../AppStyle";
+import i18n from "i18n-js";
+import * as Localization from "expo-localization";
 
 import { StyleSheet, Text, View, Platform, Image } from "react-native";
 import Button from "react-native-button";
 
-import moment from "moment";
+import moment from "moment/min/moment-with-locales";
 
 export default function DateSelectorScreen({ navigation, route }) {
   const [date, setDate] = useState(new Date());
@@ -14,6 +16,8 @@ export default function DateSelectorScreen({ navigation, route }) {
   useEffect(() => {
     return () => {};
   }, []);
+
+  moment.locale(i18n.locale);
 
   const onChange = (event, selectedDate) => {
     if (Platform.OS === "android") {
@@ -29,7 +33,7 @@ export default function DateSelectorScreen({ navigation, route }) {
 
   return (
     <View style={AppStyle.container}>
-      <Text style={AppStyle.header}>Choose Start Date</Text>
+      <Text style={AppStyle.header}>{i18n.t("titleChooseStartDate")}</Text>
       {(dateTimePickerVisible || Platform.OS === "ios") && (
         <DateTimePicker
           testID="dateTimePicker"
@@ -37,6 +41,7 @@ export default function DateSelectorScreen({ navigation, route }) {
           maximumDate={new Date()}
           value={date}
           mode="date"
+          locale={Localization.locale}
           is24Hour={true}
           display="default"
           onChange={onChange}
@@ -71,7 +76,7 @@ export default function DateSelectorScreen({ navigation, route }) {
             });
           }}
         >
-          Next
+          {i18n.t("labelNext")}
         </Button>
       </View>
     </View>
@@ -100,6 +105,6 @@ const styles = StyleSheet.create({
     ...AppStyle.defaultButtonContainer,
     flex: 1,
     justifyContent: "flex-end",
-    marginBottom: 120,
+    marginBottom: 20,
   },
 });
