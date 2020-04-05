@@ -1,35 +1,23 @@
 import * as React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  TouchableHighlight
-} from "react-native";
+import { StyleSheet, View, FlatList } from "react-native";
 
 import { TaskListItem, ModalContainer, TaskDetail } from "../components";
 
 import { readFromStorage, writeToStorage } from "../utils";
-import { TASKS } from "../constants/Tasks";
 import Colors from "../constants/Colors";
 
 export default class TasksScreen extends React.Component {
   state = {
-    totalTaskCount: undefined,
     isModalVisible: false,
     selectedTask: undefined,
-    compeletedDays: {},
-    checkedChallengeCount: 0,
     tasks: []
   };
 
   componentDidMount = async () => {
-    const totalTaskCount = await readFromStorage("quarantineDurationInDays");
     const tasks = await readFromStorage("tasks");
 
     this.setState({
-      totalTaskCount,
-      tasks: tasks.slice(0, totalTaskCount)
+      tasks
     });
   };
 
@@ -58,23 +46,24 @@ export default class TasksScreen extends React.Component {
   };
 
   handleCheckBoxPress = async challangeId => {
-    const { selectedTask } = this.state;
+    const { selectedTask, tasks } = this.state;
     if (selectedTask && selectedTask.id) {
-      const tasks = await readFromStorage("tasks");
+      // const tasks = await readFromStorage("tasks");
 
       tasks[selectedTask.id - 1].challanges[
         challangeId - 1
       ].isCompleted = !tasks[selectedTask.id - 1].challanges[challangeId - 1]
         .isCompleted;
 
-      await writeToStorage("tasks", tasks);
-
       this.setState({
+        tasks,
         selectedTask: {
           ...selectedTask,
           challanges: [...tasks[selectedTask.id - 1].challanges]
         }
       });
+
+      await writeToStorage("tasks", tasks);
 
       if (
         tasks[selectedTask.id - 1].challanges.filter(
@@ -87,23 +76,13 @@ export default class TasksScreen extends React.Component {
   };
 
   render() {
-    const {
-      totalTaskCount,
-      isModalVisible,
-      selectedTask,
-      compeletedDays,
-      checkedChallengeCount,
-      tasks
-    } = this.state;
-
-    if (!totalTaskCount) {
-      <Text>Loading</Text>;
-    }
+    const { isModalVisible, selectedTask, tasks } = this.state;
 
     return (
       <View style={styles.container}>
         <FlatList
           data={tasks}
+          keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
             <TaskListItem
               name={item.name}
@@ -126,7 +105,6 @@ export default class TasksScreen extends React.Component {
         >
           <TaskDetail
             task={selectedTask}
-            onChallangesFinished={this.onChallangesFinished}
             handleCheckBoxPress={this.handleCheckBoxPress}
           />
         </ModalContainer>

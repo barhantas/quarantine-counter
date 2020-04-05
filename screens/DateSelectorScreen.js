@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import AppStyle from '../AppStyle'
+import AppStyle from "../AppStyle";
 
 import { AsyncStorage, StyleSheet, Text, View, Platform, Image } from "react-native";
 import Button from "react-native-button";
 
-import { writeToStorage, readFromStorage, removeFromStorage } from "../utils";
-import { TASKS } from "../constants/Tasks";
+import { readFromStorage } from "../utils";
 import moment from "moment";
 import Colors from "../constants/Colors";
 
@@ -71,7 +70,6 @@ export default function DateSelectorScreen({ navigation, route }) {
         <Button
           style={styles.button}
           onPress={async () => {
-            await writeToStorage("tasks", TASKS);
             navigation.navigate("TimeSelector", {
               selectedStartDate: JSON.stringify(date)
             });
@@ -80,8 +78,6 @@ export default function DateSelectorScreen({ navigation, route }) {
           Next
         </Button>
       </View>
-
-
     </View>
   );
 }

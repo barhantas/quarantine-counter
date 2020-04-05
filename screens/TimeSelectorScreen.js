@@ -1,31 +1,32 @@
 import React, { useState, useEffect } from "react";
-import DateTimePicker from "@react-native-community/datetimepicker";
-
-import { AsyncStorage, StyleSheet, Text, View, Picker, Platform, Image } from "react-native";
-
-import Button from 'react-native-button';
-
-import { writeToStorage, readFromStorage, removeFromStorage, utilizeStartDate } from "../utils";
+import { StyleSheet, Text, View, Picker, Platform, Image } from "react-native";
+import Button from "react-native-button";
 import moment from "moment";
+
+import { writeToStorage, readFromStorage, utilizeStartDate } from "../utils";
+
+import { TASKS } from "../constants/Tasks";
+
+
 import AppStyle from "../AppStyle";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import Colors from "../constants/Colors";
 
-export default function TimeSelectorScreen({ navigation, route }) {
+export default function TimeSelectorScreen({
+  navigation,
+  route: { params: { selectedStartDate } } = {}
+}) {
 
-  const calculateStartDate = (date) => {
+useEffect(() => {}, []);  
+const calculateStartDate = (date) => {
     var now = moment();
     date.hour(now.hour());
     date.minute(now.minute());
     date.second(now.second());
   }
-
-  const { selectedStartDate } = route.params;
+  console.log('selectedDate: ', selectedStartDate);
 
   const [day, setDay] = useState('14');
 
-  useEffect(() => {
-  }, []);
+  
 
 
   const days = [];
@@ -68,7 +69,8 @@ export default function TimeSelectorScreen({ navigation, route }) {
               await writeToStorage("quarantineDurationInDays", day);
               // utilizeStartDate(JSON.parse(date));
               await writeToStorage("quarantineStartDate", utilizeStartDate(JSON.parse(selectedStartDate)));
-              navigation.reset({
+await writeToStorage("tasks", TASKS.slice(0, day));              
+navigation.reset({
                 index: 0,
                 routes: [{ name: 'App' }],
               });
@@ -79,6 +81,7 @@ export default function TimeSelectorScreen({ navigation, route }) {
           </Button>
         </View>
       </View>
+
     </View>
   );
 }

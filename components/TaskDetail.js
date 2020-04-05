@@ -6,8 +6,7 @@ import Colors from "../constants/Colors";
 
 export function TaskDetail({
   task: { challanges = [] } = {},
-  handleCheckBoxPress,
-  onChallangesFinished
+  handleCheckBoxPress
 }) {
   return (
     <ScrollView
@@ -16,7 +15,7 @@ export function TaskDetail({
       showsVerticalScrollIndicator={false}
     >
       {challanges.map(({ id: challangeId, name, description, isCompleted }) => (
-        <View>
+        <View key={challangeId}>
           <CheckBox
             title={name}
             checked={isCompleted}
