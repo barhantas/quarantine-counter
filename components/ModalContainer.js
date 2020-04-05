@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, StyleSheet, Modal, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Modal, TouchableOpacity, Alert } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 import Colors from "../constants/Colors";
@@ -20,16 +20,17 @@ export function ModalContainer({
       }}
     >
       <View style={styles.container}>
-        <TouchableOpacity
-          style={styles.closeIcon}
-          onPress={() => {
-            toggleModal();
-          }}
-        >
-          <AntDesign name="close" size={32} color={Colors.black} />
-        </TouchableOpacity>
+
         <View style={styles.modalView}>
           <Text style={styles.title}>{title}</Text>
+          <TouchableOpacity
+            style={styles.closeIcon}
+            onPress={() => {
+              toggleModal();
+            }}
+          >
+            <AntDesign name="close" size={32} color={Colors.black} />
+          </TouchableOpacity>
           {children}
         </View>
       </View>
@@ -66,9 +67,9 @@ const styles = StyleSheet.create({
     paddingBottom: 60
   },
   closeIcon: {
-    alignSelf: "flex-end",
-    marginBottom: -52,
-    marginRight: 20,
+    position: 'absolute',
+    right: 16,
+    top: 16,
     zIndex: 99
   },
   textStyle: {
