@@ -4,8 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import TabBarIcon from "../components/TabBarIcon";
 import HomeScreen from "../screens/HomeScreen";
 import TasksScreen from "../screens/TasksScreen";
-
-import HomeIcon from "../icons/HomeIcon";
+import DashboardScreen from "../screens/DashboardScreen";
 
 import Colors from "../constants/Colors";
 
@@ -46,6 +45,16 @@ export default function BottomTabNavigator({ navigation, route }) {
           ),
         }}
       />
+      <BottomTab.Screen
+        name="Dashboard"
+        component={DashboardScreen}
+        options={{
+          title: "Dashboard",
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} name="areachart" />
+          ),
+        }}
+      />
     </BottomTab.Navigator>
   );
 }
@@ -59,5 +68,7 @@ function getHeaderTitle(route) {
       return "Counter";
     case "Tasks":
       return "Daily Tasks";
+    case "Dashboard":
+      return "World Dashboard";
   }
 }

@@ -40,29 +40,29 @@ export default function HomeScreen({ navigation, route }) {
 
   const onPressFinishQuarantine = () => {
     Alert.alert(
-      'Are you sure you want to finish your quarantine?',
-      '',
+      "Are you sure you want to finish your quarantine?",
+      "",
       [
         {
-          text: 'Cancel',
+          text: "Cancel",
           onPress: () => {},
-          style: 'cancel',
+          style: "cancel",
         },
         {
-          text: 'Yes', onPress: async () => {
+          text: "Yes",
+          onPress: async () => {
             await removeFromStorage("quarantineStartDate");
             await removeFromStorage("quarantineDurationInDays");
             navigation.reset({
               index: 0,
-              routes: [{ name: 'DateSelector' }],
+              routes: [{ name: "DateSelector" }],
             });
-          }
+          },
         },
       ],
       { cancelable: false }
     );
-
-  }
+  };
 
   if (loading) {
     return (
@@ -74,7 +74,6 @@ export default function HomeScreen({ navigation, route }) {
 
   return (
     <ScrollView style={AppStyle.container}>
-
       <Text style={AppStyle.header}>Your Quarantine Ends In:</Text>
       <CountDown
         until={quarantineCounter}
@@ -87,35 +86,33 @@ export default function HomeScreen({ navigation, route }) {
         quarantineCounter={quarantineCounter}
       />
       <View style={styles.buttonContainer}>
-
         <Button
           style={AppStyle.defaultButton}
           onPress={onPressFinishQuarantine}
         >
           Finish My Quarantine
-          </Button>
+        </Button>
       </View>
-
     </ScrollView>
   );
 }
 
 HomeScreen.navigationOptions = {
   headerLeft: null,
-  gesturesEnabled: false
+  gesturesEnabled: false,
 };
 
 const styles = StyleSheet.create({
   digitStyle: {
-    backgroundColor: '#48BB78'
+    backgroundColor: "#48BB78",
   },
   digitTxtStyle: {
-    color: 'white'
+    color: "white",
   },
   buttonContainer: {
     ...AppStyle.defaultButtonContainer,
     flex: 1,
-    justifyContent: 'flex-end',
-    marginBottom: 20
-  }
+    justifyContent: "flex-end",
+    marginBottom: 20,
+  },
 });
