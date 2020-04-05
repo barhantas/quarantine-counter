@@ -7,6 +7,7 @@ import Button from 'react-native-button';
 
 import { readFromStorage, removeFromStorage, writeToStorage } from "../utils/";
 import moment from 'moment';
+import { StackActions } from "@react-navigation/native";
 
 export default function HomeScreen({ navigation, route }) {
   const [loading, setIsLoading] = useState(false);

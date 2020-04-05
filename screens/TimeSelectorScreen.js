@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
-import { AsyncStorage, StyleSheet, Text, View, Picker } from "react-native";
+import { AsyncStorage, StyleSheet, Text, View, Picker, Platform, Image } from "react-native";
 
 import Button from 'react-native-button';
 
 import { writeToStorage, readFromStorage, removeFromStorage, utilizeStartDate } from "../utils";
 import moment from "moment";
 import AppStyle from "../AppStyle";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import Colors from "../constants/Colors";
 
 export default function TimeSelectorScreen({ navigation, route }) {
 
@@ -19,8 +21,6 @@ export default function TimeSelectorScreen({ navigation, route }) {
   }
 
   const { selectedStartDate } = route.params;
-
-  console.log('selectedDate: ', selectedStartDate);
 
   const [day, setDay] = useState('14');
 
@@ -38,35 +38,47 @@ export default function TimeSelectorScreen({ navigation, route }) {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Choose Duration</Text>
-      <Picker
-        selectedValue={day}
-        onValueChange={(val) => { setDay(val) }}
-      >
-        {days.map((item, index) => {
-          return (
-            <Picker.Item label={item.toString()} value={item.toString()} key={item} />
-          );
-        })}
+      {Platform.OS === 'android' &&
 
-      </Picker>
-      <View style={styles.buttonContainer}>
-        <Button
-          style={styles.button}
-          onPress={async () => {
-            await writeToStorage("quarantineDurationInDays", day);
-            // utilizeStartDate(JSON.parse(date));
-            await writeToStorage("quarantineStartDate", utilizeStartDate(JSON.parse(selectedStartDate)));
-            navigation.reset({
-              index: 0,
-              routes: [{ name: 'App' }],
-            });
-            navigation.navigate("App");
-          }}
-        >
-          Start
+        <Image
+          style={styles.image}
+          source={require('../assets/images/time-selector.png')}
+        />
+      }
+      <View style={Platform.OS === 'android' ? styles.buttonContainer : {flex: 1}}>
+        <View style={Platform.OS === 'android' ? styles.pickerWrapper : {}}>
+          <Picker
+            selectedValue={day}
+            onValueChange={(val) => { setDay(val) }}
+            style={Platform.OS === 'android' ? styles.picker : {}}
+            prompt="Duration"
+          >
+            {days.map((item, index) => {
+              return (
+                <Picker.Item label={item.toString()} value={item.toString()} key={item} />
+              );
+            })}
+
+          </Picker>
+        </View>
+        <View style={Platform.OS === 'ios' ? styles.buttonContainer: {}}>
+          <Button
+            style={styles.button}
+            onPress={async () => {
+              await writeToStorage("quarantineDurationInDays", day);
+              // utilizeStartDate(JSON.parse(date));
+              await writeToStorage("quarantineStartDate", utilizeStartDate(JSON.parse(selectedStartDate)));
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'App' }],
+              });
+              navigation.navigate("App");
+            }}
+          >
+            Start
           </Button>
+        </View>
       </View>
-
     </View>
   );
 }
@@ -81,6 +93,24 @@ TimeSelectorScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     ...AppStyle.container
+  },
+  picker: {
+    width: 300,
+    color: Colors.green500
+  },
+  pickerWrapper: {
+    ...AppStyle.outlinedButton,
+    padding: 0,
+    marginBottom: 20,
+    alignItems: 'stretch',
+    justifyContent: 'flex-start'
+
+  },
+  image: {
+    flex: 1,
+    width: undefined,
+    height: undefined,
+    resizeMode: 'contain'
   },
   header: {
     ...AppStyle.header

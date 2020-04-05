@@ -1,4 +1,17 @@
 import { StyleSheet } from 'react-native';
+import Colors from './constants/Colors';
+
+const defaultButton = {
+    fontSize: 20,
+    color: 'white',
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: Colors.green500,
+    width: 300,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+}
 
 export default StyleSheet.create({
     header: {
@@ -11,18 +24,17 @@ export default StyleSheet.create({
         backgroundColor: "#fff"
     },
     defaultButton: {
-        fontSize: 20,
-        color: 'white',
-        padding: 10,
-        borderRadius: 20,
-        backgroundColor: '#48BB78',
-        width: 300,
-        justifyContent: 'center',
-        alignItems: 'center',
-        overflow: 'hidden'
+       ...defaultButton
     },
     defaultButtonContainer: {
         alignSelf: 'center',
         justifyContent: 'center'
+    },
+    outlinedButton: {
+        ...defaultButton,
+        backgroundColor: '#fff',
+        color: Colors.green500,
+        borderWidth: 1,
+        borderColor: Colors.green500
     }
 });
