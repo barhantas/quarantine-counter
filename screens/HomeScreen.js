@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Alert } from "react-native";
+
+import { StyleSheet, Text, View, Alert, ScrollView } from "react-native";
 import moment from "moment";
 import CountDown from "react-native-countdown-component";
 import Button from "react-native-button";
@@ -37,32 +38,31 @@ export default function HomeScreen({ navigation, route }) {
     getQuarantineCounter();
   }, []);
 
-  const onFinishQuarantinePressed = () => {
+  const onPressFinishQuarantine = () => {
     Alert.alert(
-      "Are you sure you want to finish your quarantine?",
-      "",
+      'Are you sure you want to finish your quarantine?',
+      '',
       [
         {
-          text: "Cancel",
+          text: 'Cancel',
           onPress: () => {},
-          style: "cancel"
+          style: 'cancel',
         },
         {
-          text: "Yes",
-          onPress: async () => {
+          text: 'Yes', onPress: async () => {
             await removeFromStorage("quarantineStartDate");
             await removeFromStorage("quarantineDurationInDays");
-            navigation.navigate("DateSelector");
             navigation.reset({
               index: 0,
-              routes: [{ name: "DateSelector" }]
+              routes: [{ name: 'DateSelector' }],
             });
           }
-        }
+        },
       ],
       { cancelable: false }
     );
-  };
+
+  }
 
   if (loading) {
     return (
@@ -73,7 +73,8 @@ export default function HomeScreen({ navigation, route }) {
   }
 
   return (
-    <View style={AppStyle.container}>
+    <ScrollView style={AppStyle.container}>
+
       <Text style={AppStyle.header}>Your Quarantine Ends In:</Text>
       <CountDown
         until={quarantineCounter}
@@ -86,22 +87,16 @@ export default function HomeScreen({ navigation, route }) {
         quarantineCounter={quarantineCounter}
       />
       <View style={styles.buttonContainer}>
+
         <Button
           style={AppStyle.defaultButton}
-          onPress={async () => {
-            await removeFromStorage("quarantineStartDate");
-            await removeFromStorage("quarantineDurationInDays");
-            navigation.navigate("DateSelector");
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "DateSelector" }]
-            });
-          }}
+          onPress={onPressFinishQuarantine}
         >
           Finish My Quarantine
-        </Button>
+          </Button>
       </View>
-    </View>
+
+    </ScrollView>
   );
 }
 
@@ -112,15 +107,15 @@ HomeScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
   digitStyle: {
-    backgroundColor: "#48BB78"
+    backgroundColor: '#48BB78'
   },
   digitTxtStyle: {
-    color: "white"
+    color: 'white'
   },
   buttonContainer: {
     ...AppStyle.defaultButtonContainer,
     flex: 1,
-    justifyContent: "flex-end",
-    marginBottom: 30
+    justifyContent: 'flex-end',
+    marginBottom: 20
   }
 });

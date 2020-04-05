@@ -2,45 +2,36 @@ import React, { useState, useEffect } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AppStyle from "../AppStyle";
 
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Platform, Image } from "react-native";
 import Button from "react-native-button";
 
-import { readFromStorage } from "../utils";
+import moment from "moment";
 
 export default function DateSelectorScreen({ navigation, route }) {
   const [date, setDate] = useState(new Date());
+  const [dateTimePickerVisible, setDateTimePickerVisible] = useState(false);
+
+  useEffect(() => {
+    return () => {
+    }
+  }, [])
 
   const onChange = (event, selectedDate) => {
-    console.log(selectedDate);
+    if (Platform.OS === 'android') {
+      if (event.type === 'set' || event.type === 'dismissed') {
+        setDateTimePickerVisible(false);
+        console.log(dateTimePickerVisible)
+      }
+    }
 
     const currentDate = selectedDate || date;
     setDate(currentDate);
   };
 
-  useEffect(() => {
-    let isCancelled = false;
-    async function getQuarantineStartDate() {
-      const date = await readFromStorage("quarantineStartDate");
-      if (date) {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: "App" }]
-        });
-      }
-      setDate(date ? new Date(date) : new Date());
-    }
-    if (!isCancelled) {
-      getQuarantineStartDate();
-    }
-    return () => {
-      isCancelled = true;
-    };
-  }, []);
-
   return (
     <View style={AppStyle.container}>
       <Text style={AppStyle.header}>Choose Start Date</Text>
-      <DateTimePicker
+      {(dateTimePickerVisible || Platform.OS === 'ios') && <DateTimePicker
         testID="dateTimePicker"
         timeZoneOffsetInMinutes={0}
         maximumDate={new Date()}
@@ -49,8 +40,28 @@ export default function DateSelectorScreen({ navigation, route }) {
         is24Hour={true}
         display="default"
         onChange={onChange}
-      />
+      />}
+
+      {Platform.OS === 'android' &&
+        <Image
+          style={styles.image}
+          source={require('../assets/images/date-selector.png')}
+        />
+      }
       <View style={styles.buttonContainer}>
+        {Platform.OS === 'android' && !dateTimePickerVisible &&
+          <View style={styles.outlinedButtonContainer}>
+            <Button
+              style={AppStyle.outlinedButton}
+              onPress={() => {
+                setDateTimePickerVisible(true);
+              }}
+            >
+              {moment(date).format('LL')}
+            </Button>
+          </View>
+        }
+
         <Button
           style={styles.button}
           onPress={async () => {
@@ -73,12 +84,22 @@ DateSelectorScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
   button: {
-    ...AppStyle.defaultButton
+    ...AppStyle.defaultButton,
+
+  },
+  outlinedButtonContainer: {
+    marginBottom: 20
+  },
+  image: {
+    flex: 1,
+    width: undefined,
+    height: undefined,
+    resizeMode: 'contain'
   },
   buttonContainer: {
     ...AppStyle.defaultButtonContainer,
     flex: 1,
-    justifyContent: "flex-end",
-    marginBottom: 120
+    justifyContent: 'flex-end',
+    marginBottom: 20
   }
 });
