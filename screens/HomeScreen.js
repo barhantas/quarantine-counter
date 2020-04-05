@@ -52,7 +52,6 @@ export default function HomeScreen({ navigation, route }) {
           text: 'Yes', onPress: async () => {
             await removeFromStorage("quarantineStartDate");
             await removeFromStorage("quarantineDurationInDays");
-            navigation.navigate("DateSelector");
             navigation.reset({
               index: 0,
               routes: [{ name: 'DateSelector' }],

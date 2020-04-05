@@ -60,7 +60,6 @@ export default function TimeSelectorScreen({
                 index: 0,
                 routes: [{ name: 'App' }],
               });
-              navigation.navigate("App");
             }}
           >
             Start
