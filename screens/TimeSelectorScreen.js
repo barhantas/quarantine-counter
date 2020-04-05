@@ -9,14 +9,15 @@ import { TASKS } from "../constants/Tasks";
 
 
 import AppStyle from "../AppStyle";
+import Colors from "../constants/Colors";
 
 export default function TimeSelectorScreen({
   navigation,
   route: { params: { selectedStartDate } } = {}
 }) {
 
-useEffect(() => {}, []);  
-const calculateStartDate = (date) => {
+  useEffect(() => { }, []);
+  const calculateStartDate = (date) => {
     var now = moment();
     date.hour(now.hour());
     date.minute(now.minute());
@@ -26,7 +27,7 @@ const calculateStartDate = (date) => {
 
   const [day, setDay] = useState('14');
 
-  
+
 
 
   const days = [];
@@ -46,7 +47,7 @@ const calculateStartDate = (date) => {
           source={require('../assets/images/time-selector.png')}
         />
       }
-      <View style={Platform.OS === 'android' ? styles.buttonContainer : {flex: 1}}>
+      <View style={Platform.OS === 'android' ? styles.buttonContainer : { flex: 1 }}>
         <View style={Platform.OS === 'android' ? styles.pickerWrapper : {}}>
           <Picker
             selectedValue={day}
@@ -62,15 +63,15 @@ const calculateStartDate = (date) => {
 
           </Picker>
         </View>
-        <View style={Platform.OS === 'ios' ? styles.buttonContainer: {}}>
+        <View style={Platform.OS === 'ios' ? styles.buttonContainer : {}}>
           <Button
             style={styles.button}
             onPress={async () => {
               await writeToStorage("quarantineDurationInDays", day);
               // utilizeStartDate(JSON.parse(date));
               await writeToStorage("quarantineStartDate", utilizeStartDate(JSON.parse(selectedStartDate)));
-await writeToStorage("tasks", TASKS.slice(0, day));              
-navigation.reset({
+              await writeToStorage("tasks", TASKS.slice(0, day));
+              navigation.reset({
                 index: 0,
                 routes: [{ name: 'App' }],
               });
