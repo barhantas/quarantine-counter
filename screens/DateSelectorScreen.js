@@ -12,15 +12,14 @@ export default function DateSelectorScreen({ navigation, route }) {
   const [dateTimePickerVisible, setDateTimePickerVisible] = useState(false);
 
   useEffect(() => {
-    return () => {
-    }
-  }, [])
+    return () => {};
+  }, []);
 
   const onChange = (event, selectedDate) => {
-    if (Platform.OS === 'android') {
-      if (event.type === 'set' || event.type === 'dismissed') {
+    if (Platform.OS === "android") {
+      if (event.type === "set" || event.type === "dismissed") {
         setDateTimePickerVisible(false);
-        console.log(dateTimePickerVisible)
+        console.log(dateTimePickerVisible);
       }
     }
 
@@ -31,25 +30,27 @@ export default function DateSelectorScreen({ navigation, route }) {
   return (
     <View style={AppStyle.container}>
       <Text style={AppStyle.header}>Choose Start Date</Text>
-      {(dateTimePickerVisible || Platform.OS === 'ios') && <DateTimePicker
-        testID="dateTimePicker"
-        timeZoneOffsetInMinutes={0}
-        maximumDate={new Date()}
-        value={date}
-        mode="date"
-        is24Hour={true}
-        display="default"
-        onChange={onChange}
-      />}
+      {(dateTimePickerVisible || Platform.OS === "ios") && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          timeZoneOffsetInMinutes={0}
+          maximumDate={new Date()}
+          value={date}
+          mode="date"
+          is24Hour={true}
+          display="default"
+          onChange={onChange}
+        />
+      )}
 
-      {Platform.OS === 'android' &&
+      {Platform.OS === "android" && (
         <Image
           style={styles.image}
-          source={require('../assets/images/date-selector.png')}
+          source={require("../assets/images/date-selector.png")}
         />
-      }
+      )}
       <View style={styles.buttonContainer}>
-        {Platform.OS === 'android' && !dateTimePickerVisible &&
+        {Platform.OS === "android" && !dateTimePickerVisible && (
           <View style={styles.outlinedButtonContainer}>
             <Button
               style={AppStyle.outlinedButton}
@@ -57,16 +58,16 @@ export default function DateSelectorScreen({ navigation, route }) {
                 setDateTimePickerVisible(true);
               }}
             >
-              {moment(date).format('LL')}
+              {moment(date).format("LL")}
             </Button>
           </View>
-        }
+        )}
 
         <Button
           style={styles.button}
           onPress={async () => {
             navigation.navigate("TimeSelector", {
-              selectedStartDate: JSON.stringify(date)
+              selectedStartDate: JSON.stringify(date),
             });
           }}
         >
@@ -79,27 +80,26 @@ export default function DateSelectorScreen({ navigation, route }) {
 
 DateSelectorScreen.navigationOptions = {
   header: null,
-  gesturesEnabled: false
+  gesturesEnabled: false,
 };
 
 const styles = StyleSheet.create({
   button: {
     ...AppStyle.defaultButton,
-
   },
   outlinedButtonContainer: {
-    marginBottom: 20
+    marginBottom: 20,
   },
   image: {
     flex: 1,
     width: undefined,
     height: undefined,
-    resizeMode: 'contain'
+    resizeMode: "contain",
   },
   buttonContainer: {
     ...AppStyle.defaultButtonContainer,
     flex: 1,
-    justifyContent: 'flex-end',
-    marginBottom: 20
-  }
+    justifyContent: "flex-end",
+    marginBottom: 120,
+  },
 });

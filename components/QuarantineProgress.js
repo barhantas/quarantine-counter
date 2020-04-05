@@ -7,13 +7,13 @@ import Colors from "../constants/Colors";
 
 export function QuarantineProgress({
   quarantineDurationInDays,
-  quarantineCounter
+  quarantineCounter,
 }) {
   const [seconds, setSeconds] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setSeconds(seconds => seconds + 1);
+      setSeconds((seconds) => seconds + 1);
     }, 1000);
     return () => clearInterval(interval);
   }, [seconds]);
@@ -28,7 +28,7 @@ export function QuarantineProgress({
     ((totalTimeInSeconds - quarantineCounter + seconds) / totalTimeInSeconds) *
     100;
 
-  const progressText = `%${(progress).toFixed(4)}`;
+  const progressText = `%${progress.toFixed(4)}`;
 
   return (
     <View style={styles.container}>
@@ -43,7 +43,7 @@ export function QuarantineProgress({
         //Add something fun
         onAnimationComplete={() => console.log("onAnimationComplete")}
       >
-        {fill => <Text style={styles.progressText}>{progressText}</Text>}
+        {(fill) => <Text style={styles.progressText}>{progressText}</Text>}
       </AnimatedCircularProgress>
     </View>
   );
@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
   container: {
     alignSelf: "center",
     alignItems: "center",
-    marginVertical: 40
+    marginVertical: 40,
   },
   title: { ...AppStyle.header },
-  progressText: {}
+  progressText: {},
 });
