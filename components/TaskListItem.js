@@ -25,8 +25,7 @@ export function TaskListItem({ name, onPress, isCompleted, isCurrentDay, challen
         {/* TODO: get checked challenges, calculate progress and width */}
         <View style={[styles.progress, {width: getTaskProgress(challenges)}]}>
         </View>
-      <Text style={styles.text}>{name}{}</Text>
-        {/* <Text style={styles.text}>{checkedChallengeCount}</Text> */}
+      <Text style={styles.text}>{name}</Text>
         <MaterialIcons
           name={isCompleted ? "check-circle" : 'radio-button-unchecked'}
           size={24}

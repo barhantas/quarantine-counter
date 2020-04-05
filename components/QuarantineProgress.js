@@ -4,6 +4,7 @@ import { AnimatedCircularProgress } from "react-native-circular-progress";
 
 import AppStyle from "../AppStyle";
 import Colors from "../constants/Colors";
+import i18n from "i18n-js";
 
 export function QuarantineProgress({
   quarantineDurationInDays,
@@ -32,7 +33,7 @@ export function QuarantineProgress({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Quarantine Progress</Text>
+      <Text style={styles.title}>{i18n.t("labelQuarantineProgress")}</Text>
       <AnimatedCircularProgress
         size={200}
         width={32}
