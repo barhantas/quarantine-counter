@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { StyleSheet, Text, View, Alert } from "react-native";
+import { StyleSheet, Text, View, Alert, ScrollView } from "react-native";
 import moment from "moment";
 import CountDown from "react-native-countdown-component";
 import Button from "react-native-button";
@@ -74,7 +74,7 @@ export default function HomeScreen({ navigation, route }) {
   }
 
   return (
-    <View style={AppStyle.container}>
+    <ScrollView style={AppStyle.container}>
 
       <Text style={AppStyle.header}>Your Quarantine Ends In:</Text>
       <CountDown
@@ -97,7 +97,7 @@ export default function HomeScreen({ navigation, route }) {
           </Button>
       </View>
 
-    </View>
+    </ScrollView>
   );
 }
 
