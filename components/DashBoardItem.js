@@ -16,8 +16,8 @@ export default function DashBoardItem({
     <View style={styles.wrapper}>
       {children || (
         <View style={[containerStyle, styles.container]}>
-          <Text style={[headerStyle, styles.headerStyle]}>{headerText}</Text>
-          <Text style={[dataStyle, styles.dataStyle]}>{data}</Text>
+          <Text id={headerText} style={[styles.headerStyle, headerStyle]} />
+          <Text style={[styles.dataStyle, dataStyle]}>{data}</Text>
         </View>
       )}
     </View>
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     padding: 10,
     flex: 1,
     justifyContent: "space-around",
-    alignItems: "center"
+    alignItems: "center",
   },
   wrapper: {
     flex: 1,
