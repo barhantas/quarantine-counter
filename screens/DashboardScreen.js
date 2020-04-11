@@ -36,18 +36,18 @@ export default function DashboardScreen() {
   return (
     <View style={styles.container}>
       <DashBoardItem
-        headerText={"Total Cases"}
+        headerText={"labelTotalCases"}
         data={covidData.totalCases}
         headerStyle={styles.totalCasesHeader}
         containerStyle={styles.totalCasesContainer}
       />
       <DashBoardItem
-        headerText={"Total Deaths"}
+        headerText={"labelTotalDeaths"}
         data={covidData.totalDeaths}
         containerStyle={styles.totalDeathsContainer}
       />
       <DashBoardItem
-        headerText={"Total Recovered"}
+        headerText={"labelTotalRecovered"}
         data={covidData.totalRecovered}
         containerStyle={styles.totalRecoveredContainer}
       />
@@ -68,8 +68,8 @@ const styles = StyleSheet.create({
     borderColor: Colors.red600,
   },
   totalDeathsContainer: {
-    backgroundColor: Colors.grey600,
-    borderColor: Colors.grey600
+    backgroundColor: Colors.grey800,
+    borderColor: Colors.grey800
   },
   totalRecoveredContainer: {
     backgroundColor: Colors.green600,
