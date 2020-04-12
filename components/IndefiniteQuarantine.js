@@ -1,37 +1,46 @@
-import { StyleSheet, View, Image } from "react-native";
-import React, { useState, useEffect, useRef } from "react";
-import AppStyle from "../AppStyle";
-import Text from "./Text";
-import moment from "moment";
+import { StyleSheet, View, Image } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import i18n from "i18n-js";
+import moment from 'moment';
+import Button from "react-native-button";
 
-export default function IndefiniteQuarantineTimer({
+import AppStyle from '../AppStyle';
+import Text from './Text';
+
+export default function IndefiniteQuarantine({
   startDate,
   size,
   digitStyle,
   digitTxtStyle,
   timeLabels,
   timeLabelStyle,
+  onPressFinishQuarantine
 }) {
-  const [timer, setTimer] = useState(moment().diff(startDate, "seconds"));
+  const [timer, setTimer] = useState(moment().diff(startDate, 'seconds'));
   const [timerObj, setTimerObj] = useState({
     s: 0,
     m: 0,
     h: 0,
     d: 0,
   });
-  const [loading, setIsLoading] = useState(false);
+  const [loading, setIsLoading] = useState(true);
+  const [mounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
+    setIsMounted(true);
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
-    return () => {};
+    return () => {
+      setIsMounted(false);
+    };
   }, []);
 
   useInterval(() => {
-    setTimerObj(getFormattedTimerObj());
-    setTimer(timer + 1);
+    if (mounted) {
+      setTimerObj(getFormattedTimerObj());
+      setTimer(timer + 1);
+    }
   }, 1000);
 
   function useInterval(callback, delay) {
@@ -75,13 +84,7 @@ export default function IndefiniteQuarantineTimer({
 
   const renderDigit = (d) => {
     return (
-      <View
-        style={[
-          styles.digitCont,
-          { width: size * 2.3, height: size * 2.6 },
-          digitStyle,
-        ]}
-      >
+      <View style={[styles.digitCont, { width: size * 2.3, height: size * 2.6 }, digitStyle]}>
         <Text style={[styles.digitTxtStyle, { fontSize: size }, digitTxtStyle]}>{d}</Text>
       </View>
     );
@@ -89,12 +92,7 @@ export default function IndefiniteQuarantineTimer({
 
   const renderLabel = (label) => {
     if (label) {
-      return (
-        <Text
-          style={[styles.timeTxt, { fontSize: size / 1.8 }, timeLabelStyle]}
-          id={label}
-        />
-      );
+      return <Text style={[styles.timeTxt, { fontSize: size / 1.8 }, timeLabelStyle]} id={label} />;
     }
   };
 
@@ -106,6 +104,8 @@ export default function IndefiniteQuarantineTimer({
       </View>
     );
   };
+
+  
   if (loading) {
     return (
       <View style={AppStyle.container}>
@@ -115,48 +115,56 @@ export default function IndefiniteQuarantineTimer({
   }
   return (
     <View style={{ flex: 1 }}>
+      <Text id={'labelQuarantineDuration'} style={AppStyle.header} />
       <View style={styles.timeCont}>
         {renderCounterContainer(timerObj.d, timeLabels.d)}
         {renderCounterContainer(timerObj.h, timeLabels.h)}
         {renderCounterContainer(timerObj.m, timeLabels.m)}
         {renderCounterContainer(timerObj.s, timeLabels.s)}
       </View>
-      <Image
-        style={styles.image}
-        source={require("../assets/images/home-cinema.png")}
-      />
+      <Image style={styles.image} source={require('../assets/images/home-cinema.png')} />
+      <View style={styles.buttonContainer}>
+        <Button style={AppStyle.defaultButton} onPress={onPressFinishQuarantine}>
+          {i18n.t('labelFinishMyQuarantine')}
+        </Button>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   timeCont: {
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
     marginBottom: 30,
   },
   doubleDigitCont: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   timeInnerCont: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   digitCont: {
     borderRadius: 5,
     marginHorizontal: 2,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   image: {
     flex: 1,
     width: undefined,
     height: undefined,
-    resizeMode: "contain",
+    resizeMode: 'contain',
   },
   digitTxtStyle: {
-    fontWeight: "bold"
-  }
+    fontWeight: 'bold',
+  },
+  buttonContainer: {
+    ...AppStyle.defaultButtonContainer,
+    justifyContent: 'flex-end',
+    marginBottom: 20,
+  },
 });
