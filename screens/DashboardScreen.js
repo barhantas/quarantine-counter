@@ -4,7 +4,7 @@ import { WebView } from "react-native-webview";
 import { getFromCollectApi } from "../utils";
 import AppStyle from "../AppStyle";
 import Colors from "../constants/Colors";
-import DashBoardItem from "../components/DashBoardItem";
+import DashboardItem from "../components/DashboardItem";
 
 export default function DashboardScreen() {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
@@ -35,19 +35,19 @@ export default function DashboardScreen() {
   }
   return (
     <View style={styles.container}>
-      <DashBoardItem
-        headerText={"labelTotalCases"}
+      <DashboardItem
+        titleId="labelTotalCases"
         data={covidData.totalCases}
         headerStyle={styles.totalCasesHeader}
         containerStyle={styles.totalCasesContainer}
       />
-      <DashBoardItem
-        headerText={"labelTotalDeaths"}
+      <DashboardItem
+        titleId="labelTotalDeaths"
         data={covidData.totalDeaths}
         containerStyle={styles.totalDeathsContainer}
       />
-      <DashBoardItem
-        headerText={"labelTotalRecovered"}
+      <DashboardItem
+        titleId="labelTotalRecovered"
         data={covidData.totalRecovered}
         containerStyle={styles.totalRecoveredContainer}
       />
