@@ -14,7 +14,7 @@ export const AppContext = ({ children }) => {
   const [token, setToken] = useState('');
   const [hasToken, setHasToken] = useState(false);
 
-  useEffect(()=>{
+  useEffect(() => {
     async function getPushToken() {
       try {
         const token = await readFromStorage(STORAGE_KEY_PUSH_TOKEN);

@@ -1,4 +1,4 @@
-import { SEND_PUSH_ENDPOINT } from "../constants/Notification";
+import { SEND_PUSH_ENDPOINT } from '../constants/Notification';
 
 export const sendPushNotification = async ({
   pushToken,
@@ -14,6 +14,7 @@ export const sendPushNotification = async ({
     data,
     _displayInForeground: true,
   };
+
   await fetch(SEND_PUSH_ENDPOINT, {
     method: 'POST',
     headers: {

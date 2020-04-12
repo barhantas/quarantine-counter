@@ -61,7 +61,9 @@ export const PushNotification = () => {
   }, []);
 
   const testSendNotification = () => {
-    sendPushNotification({pushToken: token});
+    Notifications.scheduleNotificationWithTimerAsync({ title: 'Hi there' }, {interval: 10000});
+
+    //sendPushNotification({pushToken: token});
   };
 
   return (
