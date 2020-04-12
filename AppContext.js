@@ -8,7 +8,7 @@ const Config = React.createContext({
   setToken: () => {},
 });
 
-export const useConfig = () => useContext(Config);
+export const useAppContext = () => useContext(Config);
 
 export const AppContext = ({ children }) => {
   const [token, setToken] = useState('');

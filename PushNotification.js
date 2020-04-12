@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, Button, Vibration, Platform } from 'react-native';
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
 import { writeToStorage } from './utils';
 import { STORAGE_KEY_PUSH_TOKEN } from './constants/Storage';
+import { sendPushNotification } from './utils/notification';
+import { useAppContext } from './AppContext';
 
-export default class PushNotification extends React.Component {
-  state = {
-    expoPushToken: '',
-    notification: {},
-  };
+export const PushNotification = () => {
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [notification, setNotification] = useState({});
+  const { token, hasToken, setToken } = useAppContext();
 
-  registerForPushNotificationsAsync = async () => {
+  const registerForPushNotificationsAsync = async () => {
     if (Constants.isDevice) {
       const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
       let finalStatus = existingStatus;
@@ -24,12 +25,14 @@ export default class PushNotification extends React.Component {
         alert('Failed to get push token for push notification!');
         return;
       }
-      token = await Notifications.getExpoPushTokenAsync();
-      console.log(token);
+      receivedToken = await Notifications.getExpoPushTokenAsync();
+      console.log(receivedToken);
+      setExpoPushToken(receivedToken);
+      // set token of parent context
+      setToken(receivedToken);
       // without async, no need to wait promise
       // app logic will handle here with Context API
       writeToStorage(STORAGE_KEY_PUSH_TOKEN, token);
-      this.setState({ expoPushToken: token });
     } else {
       alert('Must use physical device for Push Notifications');
     }
@@ -44,59 +47,39 @@ export default class PushNotification extends React.Component {
     }
   };
 
-  componentDidMount() {
-    this.registerForPushNotificationsAsync();
-
-    // Handle notifications that are received or selected while the app
-    // is open. If the app was closed and then opened by tapping the
-    // notification (rather than just tapping the app icon to open it),
-    // this function will fire on the next tick after the app starts
-    // with the notification data.
-    this._notificationSubscription = Notifications.addListener(this._handleNotification);
-  }
-
-  _handleNotification = (notification) => {
+  const handleNotification = (notification) => {
     Vibration.vibrate();
     console.log(notification);
-    this.setState({ notification: notification });
+    setNotification(notification);
   };
 
-  // Can use this function below, OR use Expo's Push Notification Tool-> https://expo.io/dashboard/notifications
-  sendPushNotification = async () => {
-    const message = {
-      to: this.state.expoPushToken,
-      sound: 'default',
-      title: 'Original Title',
-      body: 'And here is the body!',
-      data: { data: 'goes here' },
-      _displayInForeground: true,
-    };
-    const response = await fetch('https://exp.host/--/api/v2/push/send', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Accept-encoding': 'gzip, deflate',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(message),
-    });
+  useEffect(() => {
+    hasToken || registerForPushNotificationsAsync();
+
+    /*
+     * Sample notification handling mechanism.
+     * add listener to listen received notification.
+     */
+    Notifications.addListener(handleNotification);
+  }, []);
+
+  const testSendNotification = () => {
+    sendPushNotification(expoPushToken);
   };
 
-  render() {
-    return (
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'space-around',
-        }}
-      >
-        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <Text>Origin: {this.state.notification.origin}</Text>
-          <Text>Data: {JSON.stringify(this.state.notification.data)}</Text>
-        </View>
-        <Button title={'Press to Send Notification'} onPress={() => this.sendPushNotification()} />
+  return (
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'space-around',
+      }}
+    >
+      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Origin: {notification.origin}</Text>
+        <Text>Data: {JSON.stringify(notification.data)}</Text>
       </View>
-    );
-  }
-}
+      <Button title={'Press to Send Notification'} onPress={() => testSendNotification()} />
+    </View>
+  );
+};
