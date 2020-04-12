@@ -11,6 +11,7 @@ export default function DashboardScreen() {
   const [covidData, setCovidData] = useState([]);
 
   useEffect(() => {
+    let _isMounted = true;
     async function getCovidData() {
       try {
         // possible endpoints:
@@ -27,8 +28,10 @@ export default function DashboardScreen() {
       }
     }
 
-    getCovidData();
-    return () => {};
+    _isMounted && getCovidData();
+    return () => {
+      _isMounted = false;
+    };
   }, []);
   if (!isLoadingComplete) {
     return <Text>Loading...</Text>;
