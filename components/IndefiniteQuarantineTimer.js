@@ -17,7 +17,7 @@ export default function IndefiniteQuarantineTimer({
     s: 0,
     m: 0,
     h: 0,
-    d: 0
+    d: 0,
   });
   const [loading, setIsLoading] = useState(false);
 
@@ -26,6 +26,7 @@ export default function IndefiniteQuarantineTimer({
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
+    return () => {};
   }, []);
 
   useInterval(() => {
@@ -81,7 +82,7 @@ export default function IndefiniteQuarantineTimer({
           digitStyle,
         ]}
       >
-        <Text style={[{ fontSize: size }, digitTxtStyle]}>{d}</Text>
+        <Text style={[styles.digitTxtStyle, { fontSize: size }, digitTxtStyle]}>{d}</Text>
       </View>
     );
   };
@@ -113,7 +114,7 @@ export default function IndefiniteQuarantineTimer({
     );
   }
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <View style={styles.timeCont}>
         {renderCounterContainer(timerObj.d, timeLabels.d)}
         {renderCounterContainer(timerObj.h, timeLabels.h)}
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
   timeCont: {
     flexDirection: "row",
     justifyContent: "center",
-    marginBottom: 30
+    marginBottom: 30,
   },
   doubleDigitCont: {
     justifyContent: "center",
@@ -155,4 +156,7 @@ const styles = StyleSheet.create({
     height: undefined,
     resizeMode: "contain",
   },
+  digitTxtStyle: {
+    fontWeight: "bold"
+  }
 });
