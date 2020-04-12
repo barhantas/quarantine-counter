@@ -21,6 +21,7 @@ export function TaskDetail({
             checked={isCompleted}
             containerStyle={styles.checkboxContainer}
             textStyle={styles.nameText}
+            checkedColor={Colors.green500}
             onPress={() => {
               handleCheckBoxPress(challangeId);
             }}
