@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, Picker, Platform, Image } from 'react-native';
 import Button from 'react-native-button';
 import moment from 'moment';
 import i18n from 'i18n-js';
 
-import { writeToStorage, readFromStorage, utilizeStartDate } from '../utils';
+import {
+  writeToStorage,
+  readFromStorage,
+  utilizeStartDate,
+  scheduleNotificationToEndDate,
+} from '../utils';
 
 import { TASKS_TR } from '../constants/Tasks_TR';
 import { TASKS_EN } from '../constants/Tasks_EN';
 
 import AppStyle from '../AppStyle';
 import Colors from '../constants/Colors';
-import { scheduleNotificationToEndDate } from '../utils/notification';
 
 export default function TimeSelectorScreen({
   navigation,
@@ -52,7 +56,7 @@ export default function TimeSelectorScreen({
             style={styles.button}
             onPress={async () => {
               const date = utilizeStartDate(JSON.parse(selectedStartDate));
-              
+
               await writeToStorage('quarantineDurationInDays', day);
               await writeToStorage('quarantineStartDate', date);
 
