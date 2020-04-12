@@ -23,7 +23,6 @@ export default function DateSelectorScreen({ navigation, route }) {
     if (Platform.OS === "android") {
       if (event.type === "set" || event.type === "dismissed") {
         setDateTimePickerVisible(false);
-        console.log(dateTimePickerVisible);
       }
     }
 

@@ -42,7 +42,7 @@ export function QuarantineProgress({
         backgroundColor={Colors.grey100}
         rotation={270}
         //Add something fun
-        onAnimationComplete={() => console.log("onAnimationComplete")}
+        onAnimationComplete={() => {}}
       >
         {(fill) => <Text style={styles.progressText}>{progressText}</Text>}
       </AnimatedCircularProgress>

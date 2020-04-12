@@ -22,6 +22,9 @@ export default {
       "Are you sure you want to finish your quarantine?",
     labelCancel: "Cancel",
     labelYes: "Yes",
+    labelTotalCases: "Total Cases",
+    labelTotalDeaths: "Total Deaths",
+    labelTotalRecovered: "Total Recovered"
   },
   tr: {
     titleChooseStartDate: "Başlangıç Tarihini Seçin",
@@ -46,5 +49,8 @@ export default {
       "Karantinanı sonlandırmak istediğine emin misin?",
     labelCancel: "Vazgeç",
     labelYes: "Evet",
+    labelTotalCases: "Toplam Vaka",
+    labelTotalDeaths: "Toplam Ölüm",
+    labelTotalRecovered: "Toplam İyileşen"
   },
 };
