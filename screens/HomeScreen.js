@@ -122,7 +122,7 @@ export default function HomeScreen({ navigation, route }) {
           />
         </View>
       )}
-      <View style={styles.buttonContainer}>
+      <View style={[styles.buttonContainer, quarantineDurationInDays > 0 && { flex: 1 }]}>
         <Button
           style={AppStyle.defaultButton}
           onPress={onPressFinishQuarantine}
@@ -152,7 +152,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     ...AppStyle.defaultButtonContainer,
-    flex: 1,
     justifyContent: "flex-end",
     marginBottom: 20,
   }
