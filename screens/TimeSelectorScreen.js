@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Picker, Platform, Image, Switch } from 'react-native';
+import { StyleSheet, View, Picker, Platform, Image, Switch } from 'react-native';
 import Button from 'react-native-button';
 import moment from 'moment';
 import i18n from 'i18n-js';
@@ -66,10 +66,12 @@ export default function TimeSelectorScreen({
           <Button
             style={styles.button}
             onPress={async () => {
+              const date = utilizeStartDate(JSON.parse(selectedStartDate));
+
               await writeToStorage('quarantineDurationInDays', day);
               await writeToStorage(
                 'quarantineStartDate',
-                utilizeStartDate(JSON.parse(selectedStartDate)),
+                date,
               );
               const endDate = moment(date).add(day, 'days').toDate();
               scheduleNotificationToEndDate(endDate);
