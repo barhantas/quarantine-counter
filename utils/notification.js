@@ -35,5 +35,7 @@ export const scheduleNotificationToEndDate = (date) => {
     body: 'QUARANTINE_END_PUSH_BODY',
   };
 
-  Notifications.scheduleLocalNotificationAsync(notification, options);
+  Notifications.scheduleLocalNotificationAsync(notification, options).then((value) =>
+    console.log('Scheduled Push Notification LocalNotificationId: ', value),
+  );
 };
