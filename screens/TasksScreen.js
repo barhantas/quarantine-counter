@@ -5,47 +5,43 @@ import { TaskListItem, ModalContainer, TaskDetail } from "../components";
 
 import { readFromStorage, writeToStorage } from "../utils";
 import Colors from "../constants/Colors";
+import Loading from "../components/Loading";
 
 export default class TasksScreen extends React.Component {
   state = {
     isModalVisible: false,
     selectedTask: undefined,
-    tasks: []
+    tasks: [],
+    isLoading: false,
   };
 
-  componentDidMount = async () => {
-    const tasks = await readFromStorage("tasks");
-
-    this.setState({
-      tasks
-    });
-  };
-
-  componentDidUpdate = async () => {
-    const tasks = await readFromStorage("tasks");
-
-    this.setState({
-      tasks
+  componentDidMount = () => {
+    this.setState({ isLoading: true }, async () => {
+      const tasks = await readFromStorage("tasks");
+      this.setState({
+        tasks,
+        isLoading: false,
+      });
     });
   };
 
   onChallangesFinished = () => {
     this.setState(({ isModalVisible }) => ({
       isModalVisible: !isModalVisible,
-      selectedTask: undefined
+      selectedTask: undefined,
     }));
   };
 
-  toggleModal = async selectedTask => {
+  toggleModal = async (selectedTask) => {
     const tasks = await readFromStorage("tasks");
 
     this.setState(({ isModalVisible }) => ({
       isModalVisible: !isModalVisible,
-      selectedTask: !!selectedTask && tasks[selectedTask.id - 1]
+      selectedTask: !!selectedTask && tasks[selectedTask.id - 1],
     }));
   };
 
-  handleCheckBoxPress = async challangeId => {
+  handleCheckBoxPress = async (challangeId) => {
     const { selectedTask, tasks } = this.state;
     if (selectedTask && selectedTask.id) {
       // const tasks = await readFromStorage("tasks");
@@ -59,15 +55,15 @@ export default class TasksScreen extends React.Component {
         tasks,
         selectedTask: {
           ...selectedTask,
-          challanges: [...tasks[selectedTask.id - 1].challanges]
-        }
+          challanges: [...tasks[selectedTask.id - 1].challanges],
+        },
       });
 
       await writeToStorage("tasks", tasks);
 
       if (
         tasks[selectedTask.id - 1].challanges.filter(
-          challange => !challange.isCompleted
+          (challange) => !challange.isCompleted
         ).length === 0
       ) {
         this.onChallangesFinished();
@@ -76,7 +72,11 @@ export default class TasksScreen extends React.Component {
   };
 
   render() {
-    const { isModalVisible, selectedTask, tasks } = this.state;
+    const { isModalVisible, selectedTask, tasks, isLoading } = this.state;
+
+    if (isLoading) {
+      return <Loading />;
+    }
 
     return (
       <View style={styles.container}>
@@ -89,7 +89,7 @@ export default class TasksScreen extends React.Component {
               challenges={tasks[item.id - 1].challanges}
               isCompleted={
                 tasks[item.id - 1].challanges.filter(
-                  challange => !challange.isCompleted
+                  (challange) => !challange.isCompleted
                 ).length === 0
               }
               onPress={() => {
@@ -117,11 +117,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 22,
-    backgroundColor: Colors.white
+    backgroundColor: Colors.white,
   },
   item: {
     padding: 10,
     fontSize: 18,
-    height: 44
-  }
+    height: 44,
+  },
 });
