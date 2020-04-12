@@ -1,4 +1,5 @@
 import { SEND_PUSH_ENDPOINT } from '../constants/Notification';
+import { Notifications } from 'expo';
 
 export const sendPushNotification = async ({
   pushToken,
@@ -24,4 +25,15 @@ export const sendPushNotification = async ({
     },
     body: JSON.stringify(message),
   });
+};
+
+export const scheduleNotificationToEndDate = (date) => {
+  const options = { time: date };
+
+  const notification = {
+    title: 'QUARANTINE_END_PUSH_TITLE',
+    body: 'QUARANTINE_END_PUSH_BODY',
+  };
+
+  Notifications.scheduleLocalNotificationAsync(notification, options);
 };

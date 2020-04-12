@@ -1,79 +1,72 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Picker, Platform, Image } from "react-native";
-import Button from "react-native-button";
-import moment from "moment";
-import i18n from "i18n-js";
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Picker, Platform, Image } from 'react-native';
+import Button from 'react-native-button';
+import moment from 'moment';
+import i18n from 'i18n-js';
 
-import { writeToStorage, readFromStorage, utilizeStartDate } from "../utils";
+import { writeToStorage, readFromStorage, utilizeStartDate } from '../utils';
 
-import { TASKS_TR } from "../constants/Tasks_TR";
-import { TASKS_EN } from "../constants/Tasks_EN";
+import { TASKS_TR } from '../constants/Tasks_TR';
+import { TASKS_EN } from '../constants/Tasks_EN';
 
-import AppStyle from "../AppStyle";
-import Colors from "../constants/Colors";
+import AppStyle from '../AppStyle';
+import Colors from '../constants/Colors';
+import { scheduleNotificationToEndDate } from '../utils/notification';
 
 export default function TimeSelectorScreen({
   navigation,
   route: { params: { selectedStartDate } } = {},
 }) {
-  const [day, setDay] = useState("14");
+  const [day, setDay] = useState('14');
   const days = [];
 
   for (var i = 1; i <= 30; i++) {
     days.push(i);
   }
 
-  const localTasks = i18n.locale === "tr-TR" ? TASKS_TR : TASKS_EN;
+  const localTasks = i18n.locale === 'tr-TR' ? TASKS_TR : TASKS_EN;
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>{i18n.t("titleChooseDuration")}</Text>
-      {Platform.OS === "android" && (
-        <Image
-          style={styles.image}
-          source={require("../assets/images/time-selector.png")}
-        />
+      <Text style={styles.header}>{i18n.t('titleChooseDuration')}</Text>
+      {Platform.OS === 'android' && (
+        <Image style={styles.image} source={require('../assets/images/time-selector.png')} />
       )}
-      <View
-        style={Platform.OS === "android" ? styles.buttonContainer : { flex: 1 }}
-      >
-        <View style={Platform.OS === "android" && styles.pickerWrapper}>
+      <View style={Platform.OS === 'android' ? styles.buttonContainer : { flex: 1 }}>
+        <View style={Platform.OS === 'android' && styles.pickerWrapper}>
           <Picker
             selectedValue={day}
             onValueChange={(val) => {
               setDay(val);
             }}
-            style={Platform.OS === "android" && styles.picker}
+            style={Platform.OS === 'android' && styles.picker}
             prompt="Duration"
           >
             {days.map((item, index) => {
-              return (
-                <Picker.Item
-                  label={item.toString()}
-                  value={item.toString()}
-                  key={item}
-                />
-              );
+              return <Picker.Item label={item.toString()} value={item.toString()} key={item} />;
             })}
           </Picker>
         </View>
-        <View style={Platform.OS === "ios" && styles.buttonContainer}>
+        <View style={Platform.OS === 'ios' && styles.buttonContainer}>
           <Button
             style={styles.button}
             onPress={async () => {
-              await writeToStorage("quarantineDurationInDays", day);
-              await writeToStorage(
-                "quarantineStartDate",
-                utilizeStartDate(JSON.parse(selectedStartDate))
-              );           
-              await writeToStorage("tasks", localTasks.slice(0, day));
+              const date = utilizeStartDate(JSON.parse(selectedStartDate));
+              
+              await writeToStorage('quarantineDurationInDays', day);
+              await writeToStorage('quarantineStartDate', date);
+
+              const endDate = moment(date).add(day, 'days').toDate();
+              scheduleNotificationToEndDate(endDate);
+
+              await writeToStorage('tasks', localTasks.slice(0, day));
               navigation.reset({
                 index: 0,
-                routes: [{ name: "App" }],
+                routes: [{ name: 'App' }],
               });
             }}
           >
-            {i18n.t("labelStart")}
+            {i18n.t('labelStart')}
           </Button>
         </View>
       </View>
@@ -98,14 +91,14 @@ const styles = StyleSheet.create({
     ...AppStyle.outlinedButton,
     padding: 0,
     marginBottom: 20,
-    alignItems: "stretch",
-    justifyContent: "flex-start",
+    alignItems: 'stretch',
+    justifyContent: 'flex-start',
   },
   image: {
     flex: 1,
     width: undefined,
     height: undefined,
-    resizeMode: "contain",
+    resizeMode: 'contain',
   },
   header: {
     ...AppStyle.header,
@@ -117,7 +110,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     ...AppStyle.defaultButtonContainer,
     flex: 1,
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
     marginBottom: 120,
   },
 });
