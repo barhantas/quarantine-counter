@@ -12,9 +12,10 @@ import Text from '../components/Text'
 import { readFromStorage, removeFromStorage } from "../utils/";
 
 import AppStyle from "../AppStyle";
+import Loading from "../components/Loading";
 
 export default function HomeScreen({ navigation, route }) {
-  const [loading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [date, setDate] = useState(new Date());
   const [quarantineDurationInDays, setQuarantineDuration] = useState(0);
   const [quarantineCounter, setQuarantineCounter] = useState(0);
@@ -23,7 +24,7 @@ export default function HomeScreen({ navigation, route }) {
 
   useEffect(() => {
     async function getQuarantineCounter() {
-      setIsLoading(true);
+      setLoading(true);
 
       const date = await readFromStorage("quarantineStartDate");
       const duration = await readFromStorage("quarantineDurationInDays");
@@ -35,7 +36,7 @@ export default function HomeScreen({ navigation, route }) {
 
       setQuarantineCounter(countDown);
 
-      setIsLoading(false);
+      setLoading(false);
       return () => {};
     }
     getQuarantineCounter();
@@ -69,9 +70,7 @@ export default function HomeScreen({ navigation, route }) {
 
   if (loading) {
     return (
-      <View style={AppStyle.container}>
-        <Text>Loading..</Text>
-      </View>
+      <Loading />
     );
   }
 

@@ -5,9 +5,10 @@ import { getFromCollectApi } from "../utils";
 import AppStyle from "../AppStyle";
 import Colors from "../constants/Colors";
 import DashBoardItem from "../components/DashBoardItem";
+import Loading from "../components/Loading";
 
 export default function DashboardScreen() {
-  const [isLoadingComplete, setLoadingComplete] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [covidData, setCovidData] = useState([]);
 
   useEffect(() => {
@@ -17,21 +18,21 @@ export default function DashboardScreen() {
         // /countriesData
         // /totalData
         // /coronaNews
+        setLoading(true);
         const data = await getFromCollectApi("corona/totalData");
         setCovidData(data.result);
-        console.log(data.result);
       } catch (e) {
         console.warn(e);
       } finally {
-        setLoadingComplete(true);
+        setLoading(false);
       }
     }
 
     getCovidData();
     return () => {};
   }, []);
-  if (!isLoadingComplete) {
-    return <Text>Loading...</Text>;
+  if (isLoading) {
+    return <Loading />;
   }
   return (
     <View style={styles.container}>
