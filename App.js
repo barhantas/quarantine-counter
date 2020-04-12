@@ -11,7 +11,7 @@ import useLinking from './navigation/useLinking';
 import DateSelectorScreen from './screens/DateSelectorScreen';
 import TimeSelectorScreen from './screens/TimeSelectorScreen';
 import AppStyle from './AppStyle';
-import PushNotification from './PushNotification';
+import { PushNotification } from './PushNotification';
 import { readFromStorage } from './utils';
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';

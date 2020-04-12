@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { readFromStorage } from './utils';
 import { STORAGE_KEY_PUSH_TOKEN } from './constants/Storage';
 
@@ -12,20 +12,21 @@ export const useAppContext = () => useContext(Config);
 
 export const AppContext = ({ children }) => {
   const [token, setToken] = useState('');
+  const [hasToken, setHasToken] = useState(false);
 
-  async function getPushToken() {
-    try {
-      const token = await readFromStorage(STORAGE_KEY_PUSH_TOKEN);
-      setToken(token);
-      setFlavor(flavor);
-    } catch (e) {
-      console.error(e);
+  useEffect(()=>{
+    async function getPushToken() {
+      try {
+        const token = await readFromStorage(STORAGE_KEY_PUSH_TOKEN);
+        if (token === null) return;
+        setToken(token);
+        setHasToken(true);
+      } catch (e) {
+        console.error(e);
+      }
     }
-  }
-
-  getPushToken();
-
-  const hasToken = () => token !== '';
+    getPushToken();
+  }, []);
 
   const context = { token, setToken, hasToken };
 

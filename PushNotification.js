@@ -9,7 +9,6 @@ import { sendPushNotification } from './utils/notification';
 import { useAppContext } from './AppContext';
 
 export const PushNotification = () => {
-  const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState({});
   const { token, hasToken, setToken } = useAppContext();
 
@@ -26,8 +25,6 @@ export const PushNotification = () => {
         return;
       }
       receivedToken = await Notifications.getExpoPushTokenAsync();
-      console.log(receivedToken);
-      setExpoPushToken(receivedToken);
       // set token of parent context
       setToken(receivedToken);
       // without async, no need to wait promise
@@ -64,7 +61,7 @@ export const PushNotification = () => {
   }, []);
 
   const testSendNotification = () => {
-    sendPushNotification(expoPushToken);
+    sendPushNotification({pushToken: token});
   };
 
   return (
