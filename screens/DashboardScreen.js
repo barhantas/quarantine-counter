@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
-import { WebView } from "react-native-webview";
-import { getFromCollectApi } from "../utils";
-import AppStyle from "../AppStyle";
-import Colors from "../constants/Colors";
-import DashBoardItem from "../components/DashBoardItem";
-import Loading from "../components/Loading";
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { getFromCollectApi } from '../utils';
+import AppStyle from '../AppStyle';
+import Colors from '../constants/Colors';
+import DashboardItem from '../components/DashBoardItem';
+import Loading from '../components/Loading';
 
 export default function DashboardScreen() {
   const [isLoading, setLoading] = useState(false);
   const [covidData, setCovidData] = useState([]);
 
   useEffect(() => {
+    let _isMounted = true;
     async function getCovidData() {
       try {
         // possible endpoints:
@@ -19,7 +19,7 @@ export default function DashboardScreen() {
         // /totalData
         // /coronaNews
         setLoading(true);
-        const data = await getFromCollectApi("corona/totalData");
+        const data = await getFromCollectApi('corona/totalData');
         setCovidData(data.result);
       } catch (e) {
         console.warn(e);
@@ -28,27 +28,29 @@ export default function DashboardScreen() {
       }
     }
 
-    getCovidData();
-    return () => {};
+    _isMounted && getCovidData();
+    return () => {
+      _isMounted = false;
+    };
   }, []);
   if (isLoading) {
     return <Loading />;
   }
   return (
     <View style={styles.container}>
-      <DashBoardItem
-        headerText={"labelTotalCases"}
+      <DashboardItem
+        titleId="labelTotalCases"
         data={covidData.totalCases}
         headerStyle={styles.totalCasesHeader}
         containerStyle={styles.totalCasesContainer}
       />
-      <DashBoardItem
-        headerText={"labelTotalDeaths"}
+      <DashboardItem
+        titleId="labelTotalDeaths"
         data={covidData.totalDeaths}
         containerStyle={styles.totalDeathsContainer}
       />
-      <DashBoardItem
-        headerText={"labelTotalRecovered"}
+      <DashboardItem
+        titleId="labelTotalRecovered"
         data={covidData.totalRecovered}
         containerStyle={styles.totalRecoveredContainer}
       />
@@ -59,7 +61,7 @@ export default function DashboardScreen() {
 const styles = StyleSheet.create({
   container: {
     ...AppStyle.container,
-    alignItems: "center",
+    alignItems: 'center',
     paddingHorizontal: 10,
     paddingTop: 10,
   },
@@ -70,10 +72,10 @@ const styles = StyleSheet.create({
   },
   totalDeathsContainer: {
     backgroundColor: Colors.grey800,
-    borderColor: Colors.grey800
+    borderColor: Colors.grey800,
   },
   totalRecoveredContainer: {
     backgroundColor: Colors.green600,
-    borderColor: Colors.green600
-  }
+    borderColor: Colors.green600,
+  },
 });

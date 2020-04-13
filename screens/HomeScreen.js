@@ -1,123 +1,126 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-import { StyleSheet, View, Alert, ScrollView } from "react-native";
-import moment from "moment";
-import CountDown from "react-native-countdown-component";
-import Button from "react-native-button";
-import i18n from "i18n-js";
+import { StyleSheet, View, ScrollView, Alert } from 'react-native';
+import moment from 'moment';
+import i18n from 'i18n-js';
 
-import { QuarantineProgress } from "../components";
-import Text from '../components/Text'
-
-import { readFromStorage, removeFromStorage } from "../utils/";
-
-import AppStyle from "../AppStyle";
-import Loading from "../components/Loading";
+import { readFromStorage, removeFromStorage } from '../utils/';
+import AppStyle from '../AppStyle';
+import IndefiniteQuarantine from '../components/IndefiniteQuarantine';
+import Colors from '../constants/Colors';
+import DefiniteQuarantine from '../components/DefiniteQuarantine';
+import Loading from '../components/Loading';
 
 export default function HomeScreen({ navigation, route }) {
-  const [loading, setLoading] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [loading, setIsLoading] = useState(false);
+  const [quarantineStartDate, setQuarantineStartDate] = useState(new Date());
   const [quarantineDurationInDays, setQuarantineDuration] = useState(0);
   const [quarantineCounter, setQuarantineCounter] = useState(0);
 
   const [quarantineEndDate, setQuarantineEndDate] = useState(0);
 
   useEffect(() => {
+    let _isMounted = true;
     async function getQuarantineCounter() {
-      setLoading(true);
-
-      const date = await readFromStorage("quarantineStartDate");
-      const duration = await readFromStorage("quarantineDurationInDays");
+      setIsLoading(true);
+      const date = await readFromStorage('quarantineStartDate');
+      setQuarantineStartDate(date);
+      const duration = await readFromStorage('quarantineDurationInDays');
       setQuarantineDuration(duration);
-      const quarantineEndDate = moment(date).add(duration, "days");
-      setQuarantineEndDate(quarantineEndDate);
+      if (parseInt(duration) > 0) {
+        const quarantineEndDate = moment(date).add(duration, 'days');
+        setQuarantineEndDate(quarantineEndDate);
 
-      const countDown = quarantineEndDate.diff(moment(), "seconds");
+        const countDown = quarantineEndDate.diff(moment(), 'seconds');
 
-      setQuarantineCounter(countDown);
-
-      setLoading(false);
+        setQuarantineCounter(countDown);
+      }
+      setIsLoading(false);
       return () => {};
     }
-    getQuarantineCounter();
+    _isMounted && getQuarantineCounter();
+
+    return () => {
+      _isMounted = false;
+    };
   }, []);
 
   const onPressFinishQuarantine = () => {
     Alert.alert(
-      i18n.t("confirmationFinishQuarantine"),
+      i18n.t('confirmationFinishQuarantine'),
       '',
       [
         {
-          text: i18n.t("labelCancel"),
+          text: i18n.t('labelCancel'),
           onPress: () => {},
           style: 'cancel',
         },
         {
-          text: i18n.t("labelYes"), onPress: async () => {
-            await removeFromStorage("quarantineStartDate");
-            await removeFromStorage("quarantineDurationInDays");
+          text: i18n.t('labelYes'),
+          onPress: async () => {
+            await removeFromStorage('quarantineStartDate');
+            await removeFromStorage('quarantineDurationInDays');
             navigation.reset({
               index: 0,
               routes: [{ name: 'DateSelector' }],
             });
-          }
+          },
         },
       ],
-      { cancelable: false }
+      { cancelable: false },
     );
-
-  }
+  };
 
   if (loading) {
-    return (
-      <Loading />
-    );
+    return <Loading />;
   }
 
   return (
-    <ScrollView style={AppStyle.container}>
-      <Text id="labelQuarantineEndsIn" style={AppStyle.header} />
-      <CountDown
-        until={quarantineCounter}
-        size={20}
-        digitStyle={styles.digitStyle}
-        digitTxtStyle={styles.digitTxtStyle}
-        timeLabels={{d: i18n.t("labelDay"), h: i18n.t("labelHour"), m: i18n.t("labelMinute"), s: i18n.t("labelSecond")}}
-      />
-      <QuarantineProgress
-        quarantineDurationInDays={quarantineDurationInDays}
-        quarantineCounter={quarantineCounter}
-      />
-      <View style={styles.buttonContainer}>
-
-        <Button
-          style={AppStyle.defaultButton}
-          onPress={onPressFinishQuarantine}
-        >
-          {i18n.t("labelFinishMyQuarantine")}
-          </Button>
-      </View>
-
+    <ScrollView contentContainerStyle={styles.contentContainer}>
+      {quarantineDurationInDays > 0 ? (
+        <DefiniteQuarantine
+          quarantineCounter={quarantineCounter}
+          quarantineDurationInDays={quarantineDurationInDays}
+          onPressFinishQuarantine={onPressFinishQuarantine}
+        />
+      ) : (
+        <IndefiniteQuarantine
+          timeLabels={{
+            d: 'labelDay',
+            h: 'labelHour',
+            m: 'labelMinute',
+            s: 'labelSecond',
+          }}
+          size={20}
+          digitStyle={styles.digitStyle}
+          digitTxtStyle={styles.digitTxtStyle}
+          startDate={quarantineStartDate}
+          onPressFinishQuarantine={onPressFinishQuarantine}
+        />
+      )}
     </ScrollView>
   );
 }
 
 HomeScreen.navigationOptions = {
   headerLeft: null,
-  gesturesEnabled: false
+  gesturesEnabled: false,
 };
 
 const styles = StyleSheet.create({
   digitStyle: {
-    backgroundColor: '#48BB78'
+    backgroundColor: Colors.green500,
+  },
+  contentContainer: {
+    flexGrow: 1,
+    backgroundColor: Colors.white,
   },
   digitTxtStyle: {
-    color: 'white'
+    color: 'white',
   },
   buttonContainer: {
     ...AppStyle.defaultButtonContainer,
-    flex: 1,
     justifyContent: 'flex-end',
-    marginBottom: 20
-  }
+    marginBottom: 20,
+  },
 });
