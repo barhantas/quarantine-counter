@@ -1,11 +1,12 @@
 import { StyleSheet, View, Image } from 'react-native';
 import React, { useState, useEffect, useRef } from 'react';
-import i18n from "i18n-js";
+import i18n from 'i18n-js';
 import moment from 'moment';
-import Button from "react-native-button";
+import Button from 'react-native-button';
 
 import AppStyle from '../AppStyle';
 import Text from './Text';
+import Loading from './Loading';
 
 export default function IndefiniteQuarantine({
   startDate,
@@ -14,7 +15,7 @@ export default function IndefiniteQuarantine({
   digitTxtStyle,
   timeLabels,
   timeLabelStyle,
-  onPressFinishQuarantine
+  onPressFinishQuarantine,
 }) {
   const [timer, setTimer] = useState(moment().diff(startDate, 'seconds'));
   const [timerObj, setTimerObj] = useState({
@@ -105,13 +106,8 @@ export default function IndefiniteQuarantine({
     );
   };
 
-  
   if (loading) {
-    return (
-      <View style={AppStyle.container}>
-        <Text>Loading...</Text>
-      </View>
-    );
+    return <Loading />;
   }
   return (
     <View style={{ flex: 1 }}>

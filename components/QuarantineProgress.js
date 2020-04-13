@@ -5,6 +5,7 @@ import { AnimatedCircularProgress } from "react-native-circular-progress";
 import AppStyle from "../AppStyle";
 import Colors from "../constants/Colors";
 import i18n from "i18n-js";
+import Loading from "./Loading";
 
 export function QuarantineProgress({
   quarantineDurationInDays,
@@ -20,7 +21,7 @@ export function QuarantineProgress({
   }, [seconds]);
 
   if (!quarantineCounter) {
-    return <Text>Loading...</Text>;
+    return <Loading />;
   }
 
   const totalTimeInSeconds = quarantineDurationInDays * 24 * 60 * 60;

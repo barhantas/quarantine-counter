@@ -25,7 +25,7 @@ i18n.locale = Localization.locale;
 i18n.fallbacks = true;
 
 export default function App(props) {
-  const [isLoadingComplete, setLoadingComplete] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
   const [date, setDate] = React.useState();
 
@@ -58,7 +58,7 @@ export default function App(props) {
         // We might want to provide this error information to an error reporting service
         console.warn(e);
       } finally {
-        setLoadingComplete(true);
+        setIsLoading(true);
         SplashScreen.hide();
       }
     }
@@ -74,7 +74,7 @@ export default function App(props) {
     AppState.addEventListener('change', handleAppStateChange);
   }, []);
 
-  if (!isLoadingComplete && !props.skipLoadingScreen) {
+  if (!isLoading && !props.skipLoadingScreen) {
     return null;
   } else {
     return (

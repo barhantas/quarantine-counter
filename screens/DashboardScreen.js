@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
-import { WebView } from "react-native-webview";
-import { getFromCollectApi } from "../utils";
-import AppStyle from "../AppStyle";
-import Colors from "../constants/Colors";
-import DashboardItem from "../components/DashboardItem";
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { getFromCollectApi } from '../utils';
+import AppStyle from '../AppStyle';
+import Colors from '../constants/Colors';
+import DashboardItem from '../components/DashboardItem';
+import Loading from '../components/Loading';
 
 export default function DashboardScreen() {
-  const [isLoadingComplete, setLoadingComplete] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [covidData, setCovidData] = useState([]);
 
   useEffect(() => {
@@ -18,13 +18,13 @@ export default function DashboardScreen() {
         // /countriesData
         // /totalData
         // /coronaNews
-        const data = await getFromCollectApi("corona/totalData");
+        setLoading(true);
+        const data = await getFromCollectApi('corona/totalData');
         setCovidData(data.result);
-        console.log(data.result);
       } catch (e) {
         console.warn(e);
       } finally {
-        setLoadingComplete(true);
+        setLoading(false);
       }
     }
 
@@ -33,8 +33,8 @@ export default function DashboardScreen() {
       _isMounted = false;
     };
   }, []);
-  if (!isLoadingComplete) {
-    return <Text>Loading...</Text>;
+  if (isLoading) {
+    return <Loading />;
   }
   return (
     <View style={styles.container}>
@@ -61,7 +61,7 @@ export default function DashboardScreen() {
 const styles = StyleSheet.create({
   container: {
     ...AppStyle.container,
-    alignItems: "center",
+    alignItems: 'center',
     paddingHorizontal: 10,
     paddingTop: 10,
   },
@@ -72,10 +72,10 @@ const styles = StyleSheet.create({
   },
   totalDeathsContainer: {
     backgroundColor: Colors.grey800,
-    borderColor: Colors.grey800
+    borderColor: Colors.grey800,
   },
   totalRecoveredContainer: {
     backgroundColor: Colors.green600,
-    borderColor: Colors.green600
-  }
+    borderColor: Colors.green600,
+  },
 });
