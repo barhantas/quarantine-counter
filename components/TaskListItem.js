@@ -11,6 +11,7 @@ export function TaskListItem({ name, onPress, isCompleted, isCurrentDay, challen
   return (
     <TouchableOpacity
       style={styles.wrapper}
+      activeOpacity={.6}
       onPress={() => {
         onPress();
       }}
