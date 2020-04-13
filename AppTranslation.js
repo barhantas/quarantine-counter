@@ -11,7 +11,8 @@ export default {
     bottomMenuTitleTasks: "Tasks",
     screenTitleTasks: "Daily Tasks",
     screenTitleDashboard: "Dashboard",
-    labelQuarantineEndsIn: "Your Quarantine Ends In:",
+    labelQuarantineEndsIn: "Your Quarantine Ends In",
+    labelQuarantineDuration: "Your Quarantine Duration",
     labelDay: "Days",
     labelHour: "Hours",
     labelMinute: "Minutes",
@@ -24,7 +25,8 @@ export default {
     labelYes: "Yes",
     labelTotalCases: "Total Cases",
     labelTotalDeaths: "Total Deaths",
-    labelTotalRecovered: "Total Recovered"
+    labelTotalRecovered: "Total Recovered",
+    labelIndefiniteDuration: "Indefinite Duraiton"
   },
   tr: {
     titleChooseStartDate: "Başlangıç Tarihini Seçin",
@@ -38,7 +40,8 @@ export default {
     bottomMenuTitleTasks: "Görevler",
     screenTitleTasks: "Günlük Görevler",
     screenTitleDashboard: "Panel",
-    labelQuarantineEndsIn: "Karantinanın Bitişine:",
+    labelQuarantineEndsIn: "Karantinanın Bitişine",
+    labelQuarantineDuration: "Karantina Süren",
     labelDay: "Gün",
     labelHour: "Saat",
     labelMinute: "Dakika",
@@ -51,6 +54,7 @@ export default {
     labelYes: "Evet",
     labelTotalCases: "Toplam Vaka",
     labelTotalDeaths: "Toplam Ölüm",
-    labelTotalRecovered: "Toplam İyileşen"
+    labelTotalRecovered: "Toplam İyileşen",
+    labelIndefiniteDuration: "Belirsiz Süre"
   },
 };

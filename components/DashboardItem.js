@@ -4,22 +4,19 @@ import Text from "./Text";
 import { StyleSheet, View } from "react-native";
 import Colors from "../constants/Colors";
 
-export default function DashBoardItem({
+export default function DashboardItem({
   containerStyle,
-  headerText,
+  titleId,
   headerStyle,
   data,
   dataStyle,
-  children,
 }) {
   return (
     <View style={styles.wrapper}>
-      {children || (
-        <View style={[containerStyle, styles.container]}>
-          <Text id={headerText} style={[styles.headerStyle, headerStyle]} />
-          <Text style={[styles.dataStyle, dataStyle]}>{data}</Text>
-        </View>
-      )}
+      <View style={[containerStyle, styles.container]}>
+        <Text id={titleId} style={[styles.headerStyle, headerStyle]} />
+        <Text style={[styles.dataStyle, dataStyle]}>{data}</Text>
+      </View>
     </View>
   );
 }
@@ -38,14 +35,14 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: "auto",
     width: "100%",
-    marginBottom: 5
+    marginBottom: 5,
   },
   dataStyle: {
     fontSize: 45,
-    color: Colors.white
+    color: Colors.white,
   },
   headerStyle: {
     fontSize: 30,
-    color: Colors.white
+    color: Colors.white,
   },
 });

@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   container: {
     alignSelf: "center",
     alignItems: "center",
-    marginVertical: 40,
+    marginBottom: 20
   },
   title: { ...AppStyle.header },
   progressText: {},
