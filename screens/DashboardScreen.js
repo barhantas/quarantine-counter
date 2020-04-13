@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import { getFromCollectApi } from '../utils';
 import AppStyle from '../AppStyle';
 import Colors from '../constants/Colors';
-import DashboardItem from '../components/DashBoardItem';
+import DashboardItem from '../components/DashboardItem';
 import Loading from '../components/Loading';
 
 export default function DashboardScreen() {
