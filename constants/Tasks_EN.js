@@ -5,7 +5,7 @@ export const TASKS_EN = [
     challanges: [
       {
         id: 1,
-        name: 'Start a journal or blog',
+        name: 'Start a journal or blog.',
         description:
           'Sure, it can be about the coronavirus, but it could also be about a specific interest from chess to cheese.',
         isCompleted: false,
@@ -43,7 +43,7 @@ export const TASKS_EN = [
     challanges: [
       {
         id: 1,
-        name: 'Complete a puzzle!',
+        name: 'Start a puzzle!',
         description: 'The more pieces the better! Feeling extra saucy? Take on a Rubik\'s Cube. More of a word person? Crossword puzzle!',
         isCompleted: false,
       },
@@ -62,7 +62,7 @@ export const TASKS_EN = [
       {
         id: 4,
         name: 'Put on a soap opera.',
-        description: ' Mute the sound. Create your own dialogue.',
+        description: 'Mute the sound. Create your own dialogue.',
         isCompleted: false,
       },
       {
@@ -115,14 +115,14 @@ export const TASKS_EN = [
     challanges: [
       {
         id: 1,
-        name: 'Take time to reflect',
+        name: 'Take time to reflect.',
         description: 'What have you accomplished in the last year? What goals are you setting for yourself in the next year?',
         isCompleted: false,
       },
       {
         id: 2,
         name: 'Go through your camera roll, pick your favorite pics from the past year.',
-        description: 'make a photo book or order framed versions online.',
+        description: 'Make a photo book or order framed versions online.',
         isCompleted: false,
       },
       {
@@ -158,7 +158,7 @@ export const TASKS_EN = [
       {
         id: 2,
         name: 'Work on your financial planning.',
-        description: 'Such as exploring whether to refinance your loan or ways to save more money. ',
+        description: 'Such as exploring whether to refinance your loan or ways to save more money.',
         isCompleted: false,
       },
       {
@@ -422,7 +422,7 @@ export const TASKS_EN = [
       {
         id: 4,
         name: 'Have a roommate meeting about how to be more considerate of one other.',
-        description: 'especially while you will likely be spending more time together.',
+        description: 'Especially while you will likely be spending more time together.',
         isCompleted: false,
       },
       {
@@ -500,7 +500,7 @@ export const TASKS_EN = [
       {
         id: 5,
         name: 'Buy your groceries online.',
-        description: 'Don\t forget to tip the carrier!',
+        description: 'Don\'t forget to tip the carrier!',
         isCompleted: false,
       },
     ],
