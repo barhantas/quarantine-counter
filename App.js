@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { AppState, Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { AppState, Platform, StatusBar, StyleSheet, View, Image } from 'react-native';
 import { SplashScreen } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
@@ -17,6 +17,7 @@ import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 import AppTranslation from './AppTranslation';
 import { AppContext } from './AppContext';
+import { Asset } from 'expo-asset';
 
 const Stack = createStackNavigator();
 
@@ -39,6 +40,16 @@ export default function App(props) {
     }
   };
 
+  function cacheImages(images) {
+    return images.map(image => {
+      if (typeof image === 'string') {
+        return Image.prefetch(image);
+      } else {
+        return Asset.fromModule(image).downloadAsync();
+      }
+    });
+  }
+
   useEffect(() => {
     AppState.addEventListener('change', handleAppStateChange);
 
@@ -54,6 +65,11 @@ export default function App(props) {
           ...Ionicons.font,
           'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
         });
+        await cacheImages([
+          require('./assets/images/date-selector.png'),
+          require('./assets/images/time-selector.png'),
+          require('./assets/images/home-cinema.png'),
+        ]);
       } catch (e) {
         // We might want to provide this error information to an error reporting service
         console.warn(e);
