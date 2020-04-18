@@ -8,6 +8,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
+    "primaryColor": "#48BB78",
     "scheme": "myapp",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -17,9 +18,14 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": ["assets/images/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false
+    },
+    "android": {
+      "package": "com.haze.quarantine_counter",
+      "versionCode": 1,
+      "permissions": []
     }
   }
 }
