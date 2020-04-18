@@ -25,23 +25,19 @@ export default function IndefiniteQuarantine({
     d: 0,
   });
   const [loading, setIsLoading] = useState(true);
-  const [mounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
-    setTimeout(() => {
+    let timeout = setTimeout(() => {
       setIsLoading(false);
     }, 1000);
     return () => {
-      setIsMounted(false);
+      clearTimeout(timeout);
     };
   }, []);
 
   useInterval(() => {
-    if (mounted) {
-      setTimerObj(getFormattedTimerObj());
-      setTimer(timer + 1);
-    }
+    setTimerObj(getFormattedTimerObj());
+    setTimer(timer + 1);
   }, 1000);
 
   function useInterval(callback, delay) {
