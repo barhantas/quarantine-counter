@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Quarantine Clock",
+    "name": "Quarantine Counter",
     "slug": "quarantine-counter",
     "privacy": "public",
     "sdkVersion": "36.0.0",
@@ -23,7 +23,7 @@
       "supportsTablet": false
     },
     "android": {
-      "package": "com.haze.quarantine_clock",
+      "package": "com.haze.quarantine_counter",
       "versionCode": 3,
       "permissions": []
     }
