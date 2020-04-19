@@ -56,7 +56,7 @@ export default function TimeSelectorScreen({
               prompt="Duration"
             >
               {days.map((item, index) => {
-                return <Picker.Item label={item.toString()} value={item.toString()} key={item} />;
+                return <Picker.Item label={`${item.toString()} ${i18n.t("labelDay")}`} value={item.toString()} key={item} />;
               })}
             </Picker>
           </View>

@@ -1,7 +1,7 @@
 export const TASKS_EN = [
   {
     id: 1,
-    name: 'Day 1',
+    name: 'Day 1 Tasks',
     challanges: [
       {
         id: 1,
@@ -39,7 +39,7 @@ export const TASKS_EN = [
   },
   {
     id: 2,
-    name: 'Day 2',
+    name: 'Day 2 Tasks',
     challanges: [
       {
         id: 1,
@@ -75,7 +75,7 @@ export const TASKS_EN = [
   },
   {
     id: 3,
-    name: 'Day 3',
+    name: 'Day 3 Tasks',
     challanges: [
       {
         id: 1,
@@ -111,7 +111,7 @@ export const TASKS_EN = [
   },
   {
     id: 4,
-    name: 'Day 4',
+    name: 'Day 4 Tasks',
     challanges: [
       {
         id: 1,
@@ -147,7 +147,7 @@ export const TASKS_EN = [
   },
   {
     id: 5,
-    name: 'Day 5',
+    name: 'Day 5 Tasks',
     challanges: [
       {
         id: 1,
@@ -183,7 +183,7 @@ export const TASKS_EN = [
   },
   {
     id: 6,
-    name: 'Day 6',
+    name: 'Day 6 Tasks',
     challanges: [
       {
         id: 1,
@@ -219,7 +219,7 @@ export const TASKS_EN = [
   },
   {
     id: 7,
-    name: 'Day 7',
+    name: 'Day 7 Tasks',
     challanges: [
       {
         id: 1,
@@ -255,7 +255,7 @@ export const TASKS_EN = [
   },
   {
     id: 8,
-    name: 'Day 8',
+    name: 'Day 8 Tasks',
     challanges: [
       {
         id: 1,
@@ -291,7 +291,7 @@ export const TASKS_EN = [
   },
   {
     id: 9,
-    name: 'Day 9',
+    name: 'Day 9 Tasks',
     challanges: [
       {
         id: 1,
@@ -327,7 +327,7 @@ export const TASKS_EN = [
   },
   {
     id: 10,
-    name: 'Day 10',
+    name: 'Day 10 Tasks',
     challanges: [
       {
         id: 1,
@@ -363,7 +363,7 @@ export const TASKS_EN = [
   },
   {
     id: 11,
-    name: 'Day 11',
+    name: 'Day 11 Tasks',
     challanges: [
       {
         id: 1,
@@ -399,7 +399,7 @@ export const TASKS_EN = [
   },
   {
     id: 12,
-    name: 'Day 12',
+    name: 'Day 12 Tasks',
     challanges: [
       {
         id: 1,
@@ -435,7 +435,7 @@ export const TASKS_EN = [
   },
   {
     id: 13,
-    name: 'Day 13',
+    name: 'Day 13 Tasks',
     challanges: [
       {
         id: 1,
@@ -471,7 +471,7 @@ export const TASKS_EN = [
   },
   {
     id: 14,
-    name: 'Day 14',
+    name: 'Day 14 Tasks',
     challanges: [
       {
         id: 1,

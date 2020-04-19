@@ -52,9 +52,9 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Dashboard"
         component={DashboardScreen}
         options={{
-          title: i18n.t("screenTitleDashboard"),
+          title: i18n.t("bottomMenuTitleDashboard"),
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name="areachart" />
+            <TabBarIcon focused={focused} name="earth" />
           ),
         }}
       />
