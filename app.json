@@ -13,7 +13,7 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#48BB78"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -24,7 +24,7 @@
     },
     "android": {
       "package": "com.haze.quarantine_counter",
-      "versionCode": 1,
+      "versionCode": 3,
       "permissions": []
     }
   }

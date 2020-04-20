@@ -1,7 +1,7 @@
 export const TASKS_TR = [
   {
     id: 1,
-    name: '1. Gün',
+    name: '1. Günün Görevleri',
     challanges: [
       {
         id: 1,
@@ -38,7 +38,7 @@ export const TASKS_TR = [
   },
   {
     id: 2,
-    name: '2. Gün',
+    name: '2. Günün Görevleri',
     challanges: [
       {
         id: 1,
@@ -76,7 +76,7 @@ export const TASKS_TR = [
   },
   {
     id: 3,
-    name: '3. Gün',
+    name: '3. Günün Görevleri',
     challanges: [
       {
         id: 1,
@@ -113,7 +113,7 @@ export const TASKS_TR = [
   },
   {
     id: 4,
-    name: '4. Gün',
+    name: '4. Günün Görevleri',
     challanges: [
       {
         id: 1,
@@ -151,7 +151,7 @@ export const TASKS_TR = [
   },
   {
     id: 5,
-    name: '5. Gün',
+    name: '5. Günün Görevleri',
     challanges: [
       {
         id: 1,
@@ -188,7 +188,7 @@ export const TASKS_TR = [
   },
   {
     id: 6,
-    name: '6. Gün',
+    name: '6. Günün Görevleri',
     challanges: [
       {
         id: 1,
@@ -225,7 +225,7 @@ export const TASKS_TR = [
   },
   {
     id: 7,
-    name: '7. Gün',
+    name: '7. Günün Görevleri',
     challanges: [
       {
         id: 1,
@@ -261,7 +261,7 @@ export const TASKS_TR = [
   },
   {
     id: 8,
-    name: '8. Gün',
+    name: '8. Günün Görevleri',
     challanges: [
       {
         id: 1,
@@ -298,7 +298,7 @@ export const TASKS_TR = [
   },
   {
     id: 9,
-    name: '9. Gün',
+    name: '9. Günün Görevleri',
     challanges: [
       {
         id: 1,
@@ -334,7 +334,7 @@ export const TASKS_TR = [
   },
   {
     id: 10,
-    name: '10. Gün',
+    name: '10. Günün Görevleri',
     challanges: [
       {
         id: 1,
@@ -371,7 +371,7 @@ export const TASKS_TR = [
   },
   {
     id: 11,
-    name: '11. Gün',
+    name: '11. Günün Görevleri',
     challanges: [
       {
         id: 1,
@@ -407,7 +407,7 @@ export const TASKS_TR = [
   },
   {
     id: 12,
-    name: '12. Gün',
+    name: '12. Günün Görevleri',
     challanges: [
       {
         id: 1,
@@ -444,7 +444,7 @@ export const TASKS_TR = [
   },
   {
     id: 13,
-    name: '13. Gün',
+    name: '13. Günün Görevleri',
     challanges: [
       {
         id: 1,
@@ -481,7 +481,7 @@ export const TASKS_TR = [
   },
   {
     id: 14,
-    name: '14. Gün',
+    name: '14. Günün Görevleri',
     challanges: [
       {
         id: 1,

@@ -32,7 +32,7 @@ export default function DateSelectorScreen({ navigation, route }) {
     return 'en-gb';
   };
 
-  moment.locale('tr');
+  moment.locale(chooseMomentLocale(i18n.locale));
 
   const onChange = (event, selectedDate) => {
     if (Platform.OS === 'android') {
