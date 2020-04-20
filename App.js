@@ -34,7 +34,6 @@ export default function App(props) {
   const { getInitialState } = useLinking(containerRef);
 
   handleAppStateChange = (nextAppState) => {
-    console.log('nextAppState', nextAppState);
     if (nextAppState === 'inactive') {
       // console.log("the app is closed");
     }
