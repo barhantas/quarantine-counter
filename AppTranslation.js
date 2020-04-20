@@ -27,7 +27,7 @@ export default {
     labelTotalCases: "Total Cases",
     labelTotalDeaths: "Total Deaths",
     labelTotalRecovered: "Total Recovered",
-    labelIndefiniteDuration: "Indefinite Duraiton",
+    labelIndefiniteDuration: "Indefinite Duration",
     notificationTitleEndQuarantine: "Your Quarantine is Over",
     notificationBodyEndQuarantine: "But still, be sure not to leave the house unless it is mandatory."
   },
