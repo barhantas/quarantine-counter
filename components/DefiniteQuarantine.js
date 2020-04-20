@@ -14,7 +14,7 @@ export default function DefiniteQuarantine({
   onPressFinishQuarantine,
 }) {
   return (
-    <View>
+    <View style={{flex: 1}}>
       <Text id={'labelQuarantineEndsIn'} style={AppStyle.header} />
 
       <CountDown
