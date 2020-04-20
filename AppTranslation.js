@@ -27,7 +27,9 @@ export default {
     labelTotalCases: "Total Cases",
     labelTotalDeaths: "Total Deaths",
     labelTotalRecovered: "Total Recovered",
-    labelIndefiniteDuration: "Indefinite Duraiton"
+    labelIndefiniteDuration: "Indefinite Duraiton",
+    notificationTitleEndQuarantine: "Your Quarantine is Over",
+    notificationBodyEndQuarantine: "But still, be sure not to leave the house unless it is mandatory."
   },
   tr: {
     titleChooseStartDate: "Karantina Başlangıç Tarihi",
@@ -57,6 +59,8 @@ export default {
     labelTotalCases: "Toplam Vaka",
     labelTotalDeaths: "Toplam Ölüm",
     labelTotalRecovered: "Toplam İyileşen",
-    labelIndefiniteDuration: "Kalacağım Süre Belli Değil"
+    labelIndefiniteDuration: "Kalacağım Süre Belli Değil",
+    notificationTitleEndQuarantine: "Karantina Süren Bitti!",
+    notificationBodyEndQuarantine: "Yine de zorunlu olmadıkça evden çıkmamaya dikkat etmeyi unutma."
   },
 };
