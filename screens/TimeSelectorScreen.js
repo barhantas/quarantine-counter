@@ -24,8 +24,7 @@ export default function TimeSelectorScreen({
   for (var i = 1; i <= 30; i++) {
     days.push(i);
   }
-
-  const localTasks = i18n.locale === 'tr-TR' ? TASKS_TR : TASKS_EN;
+  const localTasks = i18n.locale.substring(0, 2) === 'tr' ? TASKS_TR : TASKS_EN;
 
   return (
     <View style={styles.container}>
@@ -56,7 +55,13 @@ export default function TimeSelectorScreen({
               prompt="Duration"
             >
               {days.map((item, index) => {
-                return <Picker.Item label={`${item.toString()} ${i18n.t("labelDay")}`} value={item.toString()} key={item} />;
+                return (
+                  <Picker.Item
+                    label={`${item.toString()} ${i18n.t('labelDay')}`}
+                    value={item.toString()}
+                    key={item}
+                  />
+                );
               })}
             </Picker>
           </View>
@@ -69,12 +74,13 @@ export default function TimeSelectorScreen({
               const date = utilizeStartDate(JSON.parse(selectedStartDate));
 
               await writeToStorage('quarantineDurationInDays', day);
-              await writeToStorage(
-                'quarantineStartDate',
-                date,
-              );
-              const endDate = moment(date).add(day, 'days').toDate();
-              scheduleNotificationToEndDate(endDate);
+              await writeToStorage('quarantineStartDate', date);
+
+              if (day > 0) {
+                const endDate = moment(date).add(day, 'days').toDate();
+                scheduleNotificationToEndDate(endDate);
+              }
+
               await writeToStorage('tasks', localTasks.slice(0, day > 0 ? day : 30));
               navigation.reset({
                 index: 0,
