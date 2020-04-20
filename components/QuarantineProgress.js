@@ -26,10 +26,10 @@ export function QuarantineProgress({
 
   const totalTimeInSeconds = quarantineDurationInDays * 24 * 60 * 60;
 
-  const progress =
+  let progress =
     ((totalTimeInSeconds - quarantineCounter + seconds) / totalTimeInSeconds) *
     100;
-
+  progress = progress > 100 ? 100 : progress;
   const progressText = `%${progress.toFixed(4)}`;
 
   return (
